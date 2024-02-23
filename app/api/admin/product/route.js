@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/utils/dbConnect";
-import product from "@/models/product";
+import Product from "@/models/product";
 import slugify from "slugify";
 
 export async function POST(req) {
@@ -8,7 +8,7 @@ export async function POST(req) {
   const body = await req.json();
 
   try {
-    const product = await product.create({
+    const product = await Product.create({
       ...body,
       slug: slugify(body.title),
     });
