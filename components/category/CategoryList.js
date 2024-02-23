@@ -14,6 +14,7 @@ export default function Categories() {
         <div className="col">
           {categories.map((c) => (
             <button
+              key={c._id}
               className="btn"
               onClick={() => {
                 setUpdatingCategory(c);
