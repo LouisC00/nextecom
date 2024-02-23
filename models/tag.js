@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 import uniqueValidator from "mongoose-unique-validator";
 const tagSchema = new mongoose.Schema(
   {
@@ -6,8 +6,8 @@ const tagSchema = new mongoose.Schema(
       type: String,
       trim: true,
       required: true,
-      minLength: 1,
-      maxLength: 20,
+      min: 2,
+      max: 32,
     },
     slug: {
       type: String,
@@ -15,8 +15,8 @@ const tagSchema = new mongoose.Schema(
       lowercase: true,
       index: true,
     },
-    parent: {
-      type: mongosse.Schema.Types.ObjectId,
+    parentCategory: {
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
       required: true,
     },
