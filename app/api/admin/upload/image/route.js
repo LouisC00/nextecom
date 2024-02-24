@@ -11,7 +11,7 @@ export async function POST(req) {
   const { image } = await req.json();
 
   try {
-    const result = await cloudinary.upload(image);
+    const result = await cloudinary.uploader.upload(image);
     return NextResponse.json({
       public_id: result.public_id,
       secure_url: result.secure_url,
@@ -25,7 +25,7 @@ export async function PUT(req) {
   const { public_id } = await req.json();
 
   try {
-    const result = await cloudinary.destroy(public_id);
+    const result = await cloudinary.uploader.destroy(public_id);
     return NextResponse.json({
       success: true,
     });
