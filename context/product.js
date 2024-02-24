@@ -2,6 +2,7 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Resizer from "react-image-file-resizer";
 
 export const ProductContext = createContext();
 
@@ -15,9 +16,94 @@ export const ProductProvider = ({ children }) => {
 
   const router = useRouter();
 
-  const uploadImages = (e) => {};
+  const uploadImages = (e) => {
+    const files = e.target.files;
 
-  const deleteImage = (public_id) => {};
+    let allUploadedFiles = updatingProduct
+      ? updatingProduct?.images || []
+      : product
+      ? product?.images || []
+      : [];
+
+    if (files) {
+      const totalImages = allUploadedFiles?.length + files?.length;
+      if (totalImages > 4) {
+        toast.error("You ca upload maximum 4 images");
+        return;
+      }
+
+      setUploading(true);
+      const uploadPromises = [];
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+
+        const promise = new Promise((resolve) => {
+          Resizer.imageFileResizer(
+            file,
+            1280,
+            720,
+            "JEPG",
+            100,
+            0,
+            (uri) => {
+              fetch(`${process.env.API}/admin/upload/images`, {
+                method: "POST",
+                body: JSON.stringify({ image: uri }),
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  allUploadedFiles.unshift(data);
+                  resolve();
+                })
+                .catch((err) => {
+                  console.log("image upload err  => ", err);
+                  resolve();
+                });
+            },
+            "base64"
+          );
+        });
+        uploadPromises.push(promise);
+      }
+      Promise.all(uploadPromises)
+        .then(() => {
+          updatingProduct
+            ? setUpdatingProduct({ ...updateProduct, images: allUploadedFiles })
+            : setProduct({ ...product, images: allUploadedFiles });
+
+          setUploading(false);
+        })
+        .catch((err) => {
+          console.log("image upload err =>", err);
+          setUploading(false);
+        });
+    }
+  };
+
+  const deleteImage = (public_id) => {
+    setUploading(true);
+    fetch(`${process.env.API}/admin/upload/image/${public_id}`, {
+      method: "PUT",
+      body: JSON.stringify({ public_id }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const filteredImages = updatingProduct
+          ? updatingProduct?.images?.filter(
+              (image) => image?.public_id !== public_id
+            )
+          : product?.iamges?.filter((image) => image?.public_id !== public_id);
+
+        updatingProduct
+          ? setUpdatingProduct({ ...updatingProduct, images: filteredImages })
+          : setProduct({ ...product, images: filteredImages });
+      })
+      .catch((err) => {
+        console.log("image delete err => ", err);
+      })
+      .finally(() => setUploading(false));
+  };
 
   const createProduct = async () => {
     try {

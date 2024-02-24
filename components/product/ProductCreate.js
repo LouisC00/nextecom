@@ -9,7 +9,7 @@ export default function ProductCreate() {
     product,
     setProduct,
     updatingProduct,
-    setUpdatingProdcut,
+    setUpdatingProduct,
     createProduct,
     updateProduct,
     deleteProduct,
@@ -36,7 +36,7 @@ export default function ProductCreate() {
         value={updateProduct ? updatingProduct?.title : product?.title}
         onChange={(e) =>
           updatingProduct
-            ? setUpdatingProdcut({ ...updatingProduct, title: e.target.value })
+            ? setUpdatingProduct({ ...updatingProduct, title: e.target.value })
             : setProduct({
                 ...product,
                 title: e.target.value,
@@ -54,7 +54,7 @@ export default function ProductCreate() {
         }
         onChange={(e) =>
           updatingProduct
-            ? setUpdatingProdcut({
+            ? setUpdatingProduct({
                 ...updatingProduct,
                 description: e.target.value,
               })
@@ -73,7 +73,7 @@ export default function ProductCreate() {
         value={updateProduct ? updatingProduct?.price : product?.price}
         onChange={(e) =>
           updatingProduct
-            ? setUpdatingProdcut({
+            ? setUpdatingProduct({
                 ...updatingProduct,
                 price: e.target.value,
               })
@@ -90,7 +90,7 @@ export default function ProductCreate() {
         value={updateProduct ? updatingProduct?.color : product?.color}
         onChange={(e) =>
           updatingProduct
-            ? setUpdatingProdcut({ ...updatingProduct, color: e.target.value })
+            ? setUpdatingProduct({ ...updatingProduct, color: e.target.value })
             : setProduct({
                 ...product,
                 color: e.target.value,
@@ -105,7 +105,7 @@ export default function ProductCreate() {
         value={updateProduct ? updatingProduct?.brand : product?.brand}
         onChange={(e) =>
           updatingProduct
-            ? setUpdatingProdcut({ ...updatingProduct, brand: e.target.value })
+            ? setUpdatingProduct({ ...updatingProduct, brand: e.target.value })
             : setProduct({
                 ...product,
                 brand: e.target.value,
@@ -122,7 +122,7 @@ export default function ProductCreate() {
         value={updateProduct ? updatingProduct?.stock : product?.stock}
         onChange={(e) =>
           updatingProduct
-            ? setUpdatingProdcut({
+            ? setUpdatingProduct({
                 ...updatingProduct,
                 stock: e.target.value,
               })
@@ -147,7 +147,7 @@ export default function ProductCreate() {
               : null;
 
             if (updatingProduct) {
-              setUpdatingProdcut({
+              setUpdatingProduct({
                 ...updatingProduct,
                 category,
               });
@@ -197,7 +197,7 @@ export default function ProductCreate() {
                   }
 
                   if (updatingProduct) {
-                    setUpdatingProdcut({
+                    setUpdatingProduct({
                       ...updatingProduct,
                       tags: selectedTags,
                     });
