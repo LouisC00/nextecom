@@ -17,47 +17,47 @@ export const ProductProvider = ({ children }) => {
   const router = useRouter();
 
   const uploadImages = (e) => {
-    const files = e.target.files;
-
+    let files = e.target.files;
     let allUploadedFiles = updatingProduct
-      ? updatingProduct?.images || []
+      ? updatingProduct.images || []
       : product
-      ? product?.images || []
+      ? product.images || []
       : [];
-
     if (files) {
-      const totalImages = allUploadedFiles?.length + files?.length;
+      // Check if the total combined images exceed 10
+      const totalImages = allUploadedFiles.length + files.length;
       if (totalImages > 4) {
-        toast.error("You ca upload maximum 4 images");
+        alert("You can't upload more than 4 images.");
         return;
       }
-
       setUploading(true);
       const uploadPromises = [];
-
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-
         const promise = new Promise((resolve) => {
           Resizer.imageFileResizer(
             file,
             1280,
             720,
-            "JEPG",
+            "JPEG",
             100,
             0,
             (uri) => {
-              fetch(`${process.env.API}/admin/upload/images`, {
+              fetch(`${process.env.API}/admin/upload/image`, {
                 method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
                 body: JSON.stringify({ image: uri }),
               })
                 .then((response) => response.json())
                 .then((data) => {
+                  // Insert the new image at the beginning of the array
                   allUploadedFiles.unshift(data);
                   resolve();
                 })
                 .catch((err) => {
-                  console.log("image upload err  => ", err);
+                  console.log("CLOUDINARY UPLOAD ERR", err);
                   resolve();
                 });
             },
@@ -68,14 +68,17 @@ export const ProductProvider = ({ children }) => {
       }
       Promise.all(uploadPromises)
         .then(() => {
+          // Update the state after all images are uploaded
           updatingProduct
-            ? setUpdatingProduct({ ...updateProduct, images: allUploadedFiles })
+            ? setUpdatingProduct({
+                ...updatingProduct,
+                images: allUploadedFiles,
+              })
             : setProduct({ ...product, images: allUploadedFiles });
-
           setUploading(false);
         })
-        .catch((err) => {
-          console.log("image upload err =>", err);
+        .catch((error) => {
+          console.log("Error uploading images: ", error);
           setUploading(false);
         });
     }
@@ -93,7 +96,7 @@ export const ProductProvider = ({ children }) => {
           ? updatingProduct?.images?.filter(
               (image) => image?.public_id !== public_id
             )
-          : product?.iamges?.filter((image) => image?.public_id !== public_id);
+          : product?.images?.filter((image) => image?.public_id !== public_id);
 
         updatingProduct
           ? setUpdatingProduct({ ...updatingProduct, images: filteredImages })
@@ -107,7 +110,7 @@ export const ProductProvider = ({ children }) => {
 
   const createProduct = async () => {
     try {
-      const response = await fetch(`${process.emitWarning.API}/admin/product`, {
+      const response = await fetch(`${process.env.API}/admin/product`, {
         method: "POST",
         body: JSON.stringify(product),
       });
@@ -151,7 +154,7 @@ export const ProductProvider = ({ children }) => {
         `${process.env.API}/admin/product/${updatingProduct?._id}`,
         {
           method: "PUT",
-          body: JSON.stringify(updateProduct),
+          body: JSON.stringify(updatingProduct),
         }
       );
 
