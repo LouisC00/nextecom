@@ -22,6 +22,10 @@ export default function ProductCreate() {
   const { categories, fetchCategories } = useCategory();
   const { tags, fetchTags } = useTag();
 
+  const imagePreviews = updatingProduct
+    ? updatingProduct?.images ?? []
+    : product?.images ?? [];
+
   useEffect(() => {
     fetchCategories();
     fetchTags();
@@ -225,6 +229,25 @@ export default function ProductCreate() {
             disabled={uploading}
           />
         </label>{" "}
+      </div>
+
+      <div className="d-flex justify-content-center">
+        {imagePreviews?.map((img) => (
+          <div key={img?.public_id}>
+            <img
+              src={img?.secure_url}
+              className="img rounded-circle mx-1 shadow"
+              style={{ width: "100px", height: "100px", objectFit: "cover" }}
+            />
+            <br />
+            <div
+              className="text-center pointer"
+              onClick={() => deleteImage(img?.public_id)}
+            >
+              ❌
+            </div>
+          </div>
+        ))}
       </div>
       <pre>{JSON.stringify(product, null, 4)}</pre>
     </div>
