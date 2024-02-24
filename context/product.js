@@ -124,7 +124,8 @@ export const ProductProvider = ({ children }) => {
         toast.error(data.err);
       } else {
         toast.success(`Product "${data?.title}"created`);
-        router.push("/dashboard/admin/products");
+        // router.push("/dashboard/admin/product");
+        window.location.reload();
       }
     } catch (err) {
       console.log(err);
