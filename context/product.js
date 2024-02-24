@@ -86,8 +86,11 @@ export const ProductProvider = ({ children }) => {
 
   const deleteImage = (public_id) => {
     setUploading(true);
-    fetch(`${process.env.API}/admin/upload/image/${public_id}`, {
+    fetch(`${process.env.API}/admin/upload/image`, {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ public_id }),
     })
       .then((response) => response.json())
