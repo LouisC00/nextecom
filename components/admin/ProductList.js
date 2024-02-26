@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useProduct } from "@/context/product";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
+import Pagination from "@/components/product/Pagination";
 
 export default function ProductList() {
   const {
@@ -70,7 +70,13 @@ export default function ProductList() {
         ))}
       </div>
 
-      <div className="row">
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        pathname={pathname}
+      />
+
+      {/* <div className="row">
         <div className="col text-center">
           <nav className="d-flex justify-content-center">
             <ul className="pagination">
@@ -96,7 +102,7 @@ export default function ProductList() {
             </ul>
           </nav>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
