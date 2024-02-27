@@ -2,7 +2,18 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/utils/dbConnect";
 import Product from "@/models/product";
 import { currentUser } from "@/utils/currentUser";
-import product from "@/models/product";
+
+export async function GET(req) {
+  await dbConnect();
+  const user = await currentUser();
+
+  try {
+    const likedProducts = await Product.find({ likes: user._id });
+    return NextResponse.json(likedProducts);
+  } catch (err) {
+    return NextResponse.json({ err: err.message }, { status: 500 });
+  }
+}
 
 export async function PUT(req) {
   await dbConnect();
@@ -12,7 +23,7 @@ export async function PUT(req) {
 
   try {
     const updated = await Product.findByIdAndUpdate(
-      product,
+      productId,
       {
         $addToSet: { likes: user._id },
       },
