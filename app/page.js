@@ -25,14 +25,16 @@ export default async function Home({ searchParams }) {
 
   return (
     <div>
-      <h1 className="text-center">
+      <h1 className="text-center mt-4">
         <strong>Latest Products</strong>
       </h1>
 
       <div className="row">
         ;
         {products?.map((product) => (
-          <ProductCard product={product} />
+          <div className="col-lg-4">
+            <ProductCard product={product} />
+          </div>
         ))}
       </div>
 
