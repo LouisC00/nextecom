@@ -13,8 +13,38 @@ export const ProductProvider = ({ children }) => {
   const [totalPages, setTotalPages] = useState(1);
   const [updatingProduct, setUpdatingProduct] = useState(null);
   const [uploading, setUploading] = useState(false);
+  // image preview modal
+  const [showImagePreviewModal, setShowImagePreviewModal] = useState(false);
+  const [currentImagePreviewUrl, setCurrentImagePreviewUrl] = useState("");
+  // rating system
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const [currentRating, setCurrentRating] = useState(0);
+  const [comment, setComment] = useState("");
 
   const router = useRouter();
+
+  useEffect(() => {
+    // close modal on clicks on the page
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+    function handleClickOutside(event) {
+      if (event.target.classList.contains("modal")) {
+        closeModal();
+      }
+    }
+  }, []);
+
+  const openModal = (url) => {
+    setCurrentImagePreviewUrl(url);
+    setShowImagePreviewModal(true);
+  };
+
+  const closeModal = () => {
+    setShowImagePreviewModal(false);
+    setCurrentImagePreviewUrl("");
+  };
 
   const uploadImages = (e) => {
     let files = e.target.files;
@@ -218,6 +248,18 @@ export const ProductProvider = ({ children }) => {
         fetchProducts,
         updateProduct,
         deleteProduct,
+        showImagePreviewModal,
+        setShowImagePreviewModal,
+        currentImagePreviewUrl,
+        setCurrentImagePreviewUrl,
+        openModal,
+        closeModal,
+        showRatingModal,
+        setShowRatingModal,
+        currentRating,
+        setCurrentRating,
+        comment,
+        setComment,
       }}
     >
       {children}
