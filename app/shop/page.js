@@ -1,5 +1,6 @@
 import ProductFilter from "@/components/product/ProductFilter";
 import Pagination from "@/components/product/Pagination";
+import ProductCard from "@/components/product/ProductCard";
 
 export const dynamic = "force-dynamic";
 
@@ -46,11 +47,18 @@ export default async function Shop({ searchParams }) {
           <ProductFilter searchParams={searchParams} />
         </div>
         <div className="col-lg-9 overflow-auto" style={{ maxHeight: "90vh" }}>
-          <pre>
-            {JSON.stringify({ products, currentPage, totalPages }, null, 4)}
-          </pre>
+          <h4 className="text-center fw-bold mt-3">Shop Latest products</h4>
+
+          <div className="row">
+            {products?.map((product) => (
+              <div className="col-lg-4">
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
 
           <br />
+
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
