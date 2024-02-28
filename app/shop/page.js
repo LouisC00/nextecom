@@ -16,9 +16,12 @@ async function getProducts(searchParams) {
   }).toString();
 
   try {
-    const response = await fetch(`${process.env.API}/product?${searchQuery}`, {
-      method: "GET",
-    });
+    const response = await fetch(
+      `${process.env.API}/product/filter?${searchQuery}`,
+      {
+        method: "GET",
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Failed to fetch products");
