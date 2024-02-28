@@ -42,6 +42,10 @@ export default async function ProductViewPage({ params }) {
                     __html: product?.description.replace(/\./g, "<br/><br/>"),
                   }}
                 ></div>
+
+                <div className="alert alert-primary">
+                  Brand: {product?.brand}
+                </div>
               </div>
             </div>
 
@@ -59,11 +63,8 @@ export default async function ProductViewPage({ params }) {
               <small>Posted {dayjs(product?.createdAt).fromNow()}</small>
             </div>
 
-            <div className="card-footer d-flex justify-content-between">
-              <small>Brand: {product?.brand}</small>
-              <small>
-                <ProductRating />
-              </small>
+            <div className="card-footer">
+              <ProductRating product={product} />
             </div>
           </div>
         </div>
