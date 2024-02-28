@@ -20,6 +20,7 @@ export const ProductProvider = ({ children }) => {
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [currentRating, setCurrentRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [brands, setBrands] = useState([]);
 
   const router = useRouter();
 
@@ -183,6 +184,24 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
+  const fetchBrands = async (page = 1) => {
+    try {
+      const response = await fetch(`${process.env.API}/product/brands`, {
+        method: "GET",
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(data.err);
+      } else {
+        setBrands(data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const updateProduct = async () => {
     try {
       const response = await fetch(
@@ -261,6 +280,8 @@ export const ProductProvider = ({ children }) => {
         setCurrentRating,
         comment,
         setComment,
+        brands,
+        fetchBrands,
       }}
     >
       {children}
