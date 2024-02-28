@@ -8,10 +8,14 @@ export default function TopNav() {
 
   return (
     <nav className="nav shadow p-2 justify-content-between mb-3">
-      <Link href="/" className="nav-link">
-        🛒 NEXTECOM
-      </Link>
-
+      <div className="d-flex">
+        <Link href="/" className="nav-link">
+          🛒 NEXTECOM
+        </Link>
+        <Link href="/shop" className="nav-link">
+          Shop
+        </Link>
+      </div>
       {status === "authenticated" ? (
         <div className="d-flex justify-content-end">
           <Link
