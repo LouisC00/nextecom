@@ -57,6 +57,24 @@ export const TagProvider = ({ children }) => {
     }
   };
 
+  const fetchTagsPublic = async () => {
+    try {
+      const response = await fetch(`${process.env.API}/tags`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setTags(data);
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
+  };
+
   const updateTag = async () => {
     try {
       const response = await fetch(
@@ -130,6 +148,7 @@ export const TagProvider = ({ children }) => {
         setUpdatingTag,
         createTag,
         fetchTags,
+        fetchTagsPublic,
         updateTag,
         deleteTag,
       }}
