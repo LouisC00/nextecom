@@ -1,6 +1,7 @@
 .pointer {
     cursor: pointer;
 }
+/* hide scrollbar in filter */
 .filter-scroll {
     max-height: 200px;
     overflow-y: scroll;
@@ -11,4 +12,10 @@
 .filter-scroll::-webkit-scrollbar-thumb {
     background-color: #f2f2f2;
     border-radius: 4px
+}
+/* hide input number arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
