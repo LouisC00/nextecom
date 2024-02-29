@@ -20,7 +20,11 @@ export const ProductProvider = ({ children }) => {
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [currentRating, setCurrentRating] = useState(0);
   const [comment, setComment] = useState("");
+  // brand
   const [brands, setBrands] = useState([]);
+  // text based search
+  const [productSearchQuery, setProductSearchQuery] = useState("");
+  const [productSearchResults, setProductSearchResults] = useState([]);
 
   const router = useRouter();
 
@@ -247,6 +251,27 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
+  const fetchProductSearchResults = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `${process.env.API}/search/products?productSearchQuery=${productSearchQuery}`,
+        {
+          method: "GET",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok for search results");
+      }
+      const data = await response.json();
+      setProductSearchResults(data);
+      router.push(`/search/products?productSearchQuery=${productSearchQuery}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <ProductContext.Provider
       value={{
@@ -282,6 +307,11 @@ export const ProductProvider = ({ children }) => {
         setComment,
         brands,
         fetchBrands,
+        productSearchQuery,
+        setProductSearchQuery,
+        productSearchResults,
+        setProductSearchResults,
+        fetchProductSearchResults,
       }}
     >
       {children}
