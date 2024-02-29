@@ -3,10 +3,23 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import ProductImage from "@/components/product/ProductImage";
 import ProductLike from "@/components/product/ProductLike";
 import ProductRating from "@/components/product/ProductRating";
+import UserReviews from "@/components/product/UserReviews";
+
+export async function generateMetadata({ params }) {
+  const product = await getProduct(params?.slug);
+
+  return {
+    title: product?.title,
+    description: product?.description?.substring(0, 160),
+    openGraph: {
+      images: product?.images[0]?.secure_url,
+    },
+  };
+}
 
 dayjs.extend(relativeTime);
 
-async function getProducts(slug) {
+async function getProduct(slug) {
   try {
     const response = await fetch(`${process.env.API}/product/${slug}`, {
       method: "GET",
@@ -26,7 +39,7 @@ async function getProducts(slug) {
 }
 
 export default async function ProductViewPage({ params }) {
-  const product = await getProducts(params.slug);
+  const product = await getProduct(params.slug);
 
   return (
     <div className="container mb-5">
@@ -74,6 +87,12 @@ export default async function ProductViewPage({ params }) {
       <div className="row">
         <div className="col my-5">
           <p className="lead">Related products</p>
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col my-5">
+          <UserReviews reviews={product?.ratings} />
         </div>
       </div>
     </div>
