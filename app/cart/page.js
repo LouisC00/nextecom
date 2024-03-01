@@ -16,7 +16,7 @@ export default function Cart() {
 
   const tickIcon = (stepNumber) => {
     return step === stepNumber ? (
-      <GoCheckCircleFill className="mb-1 text-danger" />
+      <GoCheckCircleFill className="mb-1 text-success" />
     ) : null;
   };
 
