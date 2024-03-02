@@ -37,7 +37,7 @@ export default function ProductCreate() {
       <input
         type="text"
         placeholder="Title"
-        value={updateProduct ? updatingProduct?.title : product?.title}
+        value={updatingProduct ? updatingProduct?.title : product?.title}
         onChange={(e) =>
           updatingProduct
             ? setUpdatingProduct({ ...updatingProduct, title: e.target.value })
@@ -54,7 +54,7 @@ export default function ProductCreate() {
         className="form-control p-2 mb-2"
         placeholder="Description"
         value={
-          updateProduct ? updatingProduct?.description : product?.description
+          updatingProduct ? updatingProduct?.description : product?.description
         }
         onChange={(e) =>
           updatingProduct
@@ -74,8 +74,8 @@ export default function ProductCreate() {
         placeholder="Price"
         min="1"
         className="form-control p-2 mb-2"
-        value={updateProduct ? updatingProduct?.price : product?.price}
-        onChange={(e) =>
+        value={updatingProduct ? updatingProduct?.price : product?.price}
+        onChange={(e) => {
           updatingProduct
             ? setUpdatingProduct({
                 ...updatingProduct,
@@ -84,14 +84,30 @@ export default function ProductCreate() {
             : setProduct({
                 ...product,
                 price: e.target.value,
-              })
-        }
+              });
+        }}
       />
+
+      {updatingProduct && (
+        <input
+          type="number"
+          placeholder="Previous price"
+          min="1"
+          className="form-control p-2 mb-2"
+          value={updatingProduct?.previousPrice}
+          onChange={(e) =>
+            setUpdatingProduct({
+              ...updatingProduct,
+              previousPrice: e.target.value,
+            })
+          }
+        />
+      )}
 
       <input
         type="text"
         placeholder="Color"
-        value={updateProduct ? updatingProduct?.color : product?.color}
+        value={updatingProduct ? updatingProduct?.color : product?.color}
         onChange={(e) =>
           updatingProduct
             ? setUpdatingProduct({ ...updatingProduct, color: e.target.value })
@@ -106,7 +122,7 @@ export default function ProductCreate() {
       <input
         type="text"
         placeholder="Brand"
-        value={updateProduct ? updatingProduct?.brand : product?.brand}
+        value={updatingProduct ? updatingProduct?.brand : product?.brand}
         onChange={(e) =>
           updatingProduct
             ? setUpdatingProduct({ ...updatingProduct, brand: e.target.value })
@@ -123,7 +139,7 @@ export default function ProductCreate() {
         placeholder="Stock"
         min="1"
         className="form-control p-2 mb-2"
-        value={updateProduct ? updatingProduct?.stock : product?.stock}
+        value={updatingProduct ? updatingProduct?.stock : product?.stock}
         onChange={(e) =>
           updatingProduct
             ? setUpdatingProduct({
@@ -174,6 +190,7 @@ export default function ProductCreate() {
         </select>
       </div>
 
+      {/* tags not working */}
       <div className="d-flex flex-wrap justify-content-evenly align-items-center">
         {tags
           ?.filter(
