@@ -25,6 +25,13 @@ export default function ProductCard({ product }) {
             <strong>${product?.price?.toFixed(2)}</strong> {product?.title}
           </h5>
         </Link>
+        {product?.previousPrice > product?.price && (
+          <h5 className="card-title">
+            <del className="card-title alert-danger">
+              ${product?.previousPrice?.toFixed(2)}
+            </del>
+          </h5>
+        )}
         <div
           dangerouslySetInnerHTML={{
             __html:
