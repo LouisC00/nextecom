@@ -42,8 +42,8 @@ export default function AddToCart({ product, reviewAndCheckout = true }) {
     <div>
       {cartItems.some((item) => item._id === product._id) ? (
         <>
-          <div className="input-group quantity-input">
-            <div className="input-group-prepend">
+          <div className="input-group">
+            <div className="d-flex justify-content-between">
               <button
                 className="btn btn-outline-secondary"
                 type="button"
