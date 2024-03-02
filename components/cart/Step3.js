@@ -4,35 +4,38 @@ import OrderSummary from "@/components/cart/OrderSummary";
 import toast from "react-hot-toast";
 
 export default function Step3({ onPrevStep }) {
-  const { cartItems } = useCart();
+  const { cartItems, validCoupon, couponCode } = useCart();
   // state
   const [loading, setLoading] = useState(false);
 
   const handleClick = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
+      const payload = {};
+
       const cartData = cartItems.map((item) => ({
         _id: item._id,
         quantity: item.quantity,
       }));
+
+      payload.cartItems = cartData;
+      if (validCoupon) {
+        payload.couponCode = couponCode;
+      }
 
       const response = await fetch(`${process.env.API}/user/stripe/session`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          cartItems: cartData,
-        }),
+        body: JSON.stringify(payload),
       });
 
+      const data = await response.json();
       if (response.ok) {
-        const data = await response.json();
-        // console.log("checkout session response data", data);
         window.location.href = data.url;
       } else {
-        const errorData = await response.json();
-        toast.error(errorData.err);
+        toast.error(data.err);
         setLoading(false);
       }
     } catch (err) {
