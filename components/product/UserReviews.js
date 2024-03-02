@@ -5,10 +5,10 @@ export default function UserReviews({ reviews }) {
   return (
     <>
       {reviews?.length > 0 ? (
-        <div>
+        <div className="col-lg-8 offset-lg-2">
           <RatingDistribution reviews={reviews} />
           {/* List of user reviews */}
-          <ul className="list-group mt-4 bg-white">
+          <ul className="mt-4 bg-white">
             {reviews.map((review) => (
               <li className="list-group-item mb-1" key={review._id}>
                 <div>
