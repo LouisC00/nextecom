@@ -4,6 +4,8 @@ import ProductImage from "@/components/product/ProductImage";
 import ProductLike from "@/components/product/ProductLike";
 import ProductRating from "@/components/product/ProductRating";
 import UserReviews from "@/components/product/UserReviews";
+import CouponCode from "@/components/product/CouponCode";
+import AddToCart from "@/components/product/AddToCart";
 
 export async function generateMetadata({ params }) {
   const product = await getProduct(params?.slug);
@@ -42,51 +44,49 @@ export default async function ProductViewPage({ params }) {
   const product = await getProduct(params.slug);
 
   return (
-    <div className="container mb-5">
+    <div className="container my-4">
       <div className="row">
-        <div className="col-lg-8 mb-4">
-          <div className="card">
-            <ProductImage product={product} />
-            <div className="card-body">
-              <h5 className="card-title">{product.title}</h5>
-              <div className="card-text">
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: product?.description.replace(/\./g, "<br/><br/>"),
-                  }}
-                ></div>
-
-                <div className="alert alert-primary">
-                  Brand: {product?.brand}
-                </div>
-              </div>
+        <div className="col-lg-8 offset-lg-2 card pt-5">
+          <h1 className="text-center">{product?.title}</h1>
+          <CouponCode product={product} />
+          <ProductImage product={product} />
+          <div className="card-body">
+            <div
+              dangerouslySetInnerHTML={{
+                __html: product?.description.replace(/\./g, "<br/><br/>"),
+              }}
+            />
+            <div className="alert alert-primary mt-3">
+              Brand: {product?.brand}
             </div>
+          </div>
 
-            <div className="card-footer d-flex justify-content-between">
-              <small className="text-muted">
-                Category: {product.category.name}
-              </small>
-              <small className="text-muted">
-                Tags: {product.tags.map((tag) => tag.name).join(" ")}
-              </small>{" "}
-            </div>
+          <div className="card-footer d-flex justify-content-between">
+            <small className="text-muted">
+              Category: {product.category.name}
+            </small>
+            <small className="text-muted">
+              Tags: {product.tags.map((tag) => tag.name).join(" ")}
+            </small>{" "}
+          </div>
 
-            <div className="card-footer d-flex justify-content-between">
-              <ProductLike product={product} />
-              <small>Posted {dayjs(product?.createdAt).fromNow()}</small>
-            </div>
+          <div className="card-footer d-flex justify-content-between">
+            <ProductLike product={product} />
+            <small>Posted {dayjs(product?.createdAt).fromNow()}</small>
+          </div>
 
-            <div className="card-footer">
-              <ProductRating product={product} />
+          <div className="card-footer">
+            <ProductRating product={product} />
+            <div className="my-3">
+              <AddToCart product={product} />
             </div>
           </div>
         </div>
-        <div className="col-lg-4">Add to cart / wishlist</div>
       </div>
 
       <div className="row">
         <div className="col my-5">
-          <p className="lead">Related products</p>
+          <h4 className="text-center">Related products</h4>
         </div>
       </div>
 
