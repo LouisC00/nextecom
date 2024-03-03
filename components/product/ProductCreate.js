@@ -203,12 +203,13 @@ export default function ProductCreate() {
               <input
                 type="checkbox"
                 value={tag?._id}
+                checked={updatingProduct?.tags?.some((t) => t._id === tag._id)}
                 onChange={(e) => {
                   const tagId = e.target.value;
-                  const tagName = e.tag?.name;
+                  const tagName = tag?.name;
 
                   let selectedTags = updatingProduct
-                    ? [...ProductCreate(updateProduct?.tags ?? [])]
+                    ? [...(updatingProduct.tags ?? [])]
                     : [...(product?.tags ?? [])];
 
                   if (e.target.checked) {
@@ -292,7 +293,7 @@ export default function ProductCreate() {
         )}
       </div>
 
-      <pre>{JSON.stringify(product, null, 4)}</pre>
+      {/* <pre>{JSON.stringify(product, null, 4)}</pre> */}
     </div>
   );
 }
