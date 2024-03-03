@@ -56,7 +56,7 @@ export default async function ProductViewPage({ params }) {
                 __html: product?.description.replace(/\./g, "<br/><br/>"),
               }}
             />
-            <div className="alert alert-primary mt-3">
+            <div className="alert alert-primary mt-4">
               Brand: {product?.brand}
             </div>
           </div>
