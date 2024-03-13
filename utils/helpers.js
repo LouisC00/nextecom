@@ -8,3 +8,12 @@ export function calculateAverageRating(ratings) {
   const averageRating = totalRating / ratings.length;
   return averageRating;
 }
+
+export const stockStatus = (stock) => {
+  if (stock === 0) {
+    return "Out of Stock";
+  } else if (stock <= 10) {
+    return "Low Stock";
+  }
+  return null;
+};
