@@ -23,7 +23,7 @@ export default function UserStripeSuccess() {
             className="btn btn-primary btn-raised"
             href="/dashboard/user/orders"
           >
-            View order status
+            View Order Status
           </Link>
         </div>
       </div>
