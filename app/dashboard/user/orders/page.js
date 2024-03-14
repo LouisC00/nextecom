@@ -59,6 +59,17 @@ export default function UserOrders() {
     );
   }
 
+  if (!orders?.length) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center text-
+  danger vh-100 h1"
+      >
+        No Orders
+      </div>
+    );
+  }
+
   return (
     <div className="container mb-5">
       <div className="row">
