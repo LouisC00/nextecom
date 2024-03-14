@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import ProductRating from "./ProductRating";
 import AddToCart from "@/components/product/AddToCart";
+import { stockStatus } from "@/utils/helpers";
 
 dayjs.extend(relativeTime);
 
@@ -63,6 +64,9 @@ export default function ProductCard({ product }) {
       </div>
 
       <div className="card-footer">
+        <div className="bg-warning text-center">
+          {stockStatus(product?.stock)}
+        </div>
         <AddToCart product={product} />
       </div>
     </div>
