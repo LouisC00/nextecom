@@ -8,6 +8,7 @@ export async function GET(req) {
   // req.nextUrl.searchParams.get('page')
   const searchParams = queryString.parseUrl(req.url).query;
   console.log("searchParams in admin orders => ", searchParams.page);
+
   const { page } = searchParams || {};
   const pageSize = 3;
 
@@ -15,6 +16,7 @@ export async function GET(req) {
     const currentPage = Number(page) || 1;
     const skip = (currentPage - 1) * pageSize;
     const totalOrders = await Order.countDocuments({});
+
     const orders = await Order.find({})
       .populate("userId", "name")
       .skip(skip)
