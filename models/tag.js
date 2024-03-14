@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
-import Category from "@/models/category";
+// import Category from "@/models/category";
 
 const tagSchema = new mongoose.Schema(
   {
@@ -25,5 +25,7 @@ const tagSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 tagSchema.plugin(uniqueValidator);
+
 export default mongoose.models.Tag || mongoose.model("Tag", tagSchema);

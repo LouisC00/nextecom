@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
+
 const categorySchema = new mongoose.Schema(
   {
     name: {
@@ -18,6 +19,8 @@ const categorySchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 categorySchema.plugin(uniqueValidator);
+
 export default mongoose.models.Category ||
   mongoose.model("Category", categorySchema);
