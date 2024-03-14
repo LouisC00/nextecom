@@ -51,6 +51,7 @@ export default function ProductRating({ product, leaveARating = true }) {
     if (status !== "authenticated") {
       toast.error("You must be logged in to leave a rating");
       router.push(`/login?callbackUrl=${pathname}`);
+
       return;
     }
     try {
@@ -62,17 +63,19 @@ export default function ProductRating({ product, leaveARating = true }) {
           comment,
         }),
       });
-      if (!response.ok) {
-        throw new Error("Failed to leave a rating");
-      }
+
       const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.err || "Failed to leave a rating");
+      }
       setProductRatings(data?.ratings);
       setShowRatingModal(false);
       toast.success("Thanks for leaving a rating");
       router.refresh();
     } catch (err) {
       console.log(err);
-      toast.error("Error leaving a rating");
+      // toast.error("Error leaving a rating");
+      toast.error(err.message);
     }
   };
 
