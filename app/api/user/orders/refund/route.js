@@ -33,8 +33,11 @@ export async function POST(req) {
 
     for (const cartItem of order.cartItems) {
       const product = await Product.findById(cartItem._id);
-      product.quantity = product.quantity + cartItem.quantity;
-      await product.save();
+
+      if (product) {
+        product.stock += cartItem.quantity;
+        await product.save();
+      }
     }
 
     order.status = "Refunded";
