@@ -6,6 +6,7 @@ import ProductRating from "@/components/product/ProductRating";
 import UserReviews from "@/components/product/UserReviews";
 import CouponCode from "@/components/product/CouponCode";
 import AddToCart from "@/components/product/AddToCart";
+import ProductCard from "@/components/product/ProductCard";
 
 export async function generateMetadata({ params }) {
   const product = await getProduct(params?.slug);
@@ -14,7 +15,10 @@ export async function generateMetadata({ params }) {
     title: product?.title,
     description: product?.description?.substring(0, 160),
     openGraph: {
-      images: product?.images[0]?.secure_url,
+      images:
+        product?.images && product?.images.length > 0
+          ? product?.images[0]?.secure_url
+          : null,
     },
   };
 }
@@ -41,7 +45,7 @@ async function getProduct(slug) {
 }
 
 export default async function ProductViewPage({ params }) {
-  const product = await getProduct(params.slug);
+  const { product, relatedProducts } = await getProduct(params?.slug);
 
   return (
     <div className="container my-4">
@@ -63,7 +67,7 @@ export default async function ProductViewPage({ params }) {
 
           <div className="card-footer d-flex justify-content-between">
             <small className="text-muted">
-              Category: {product.category.name}
+              Category: {product?.category.name}
             </small>
             <small className="text-muted">
               Tags: {product.tags.map((tag) => tag.name).join(" ")}
@@ -85,8 +89,15 @@ export default async function ProductViewPage({ params }) {
       </div>
 
       <div className="row">
-        <div className="col my-5">
-          <h4 className="text-center">Related products</h4>
+        <div className="col-lg-10 offset-lg-1">
+          <p className="lead text-center my-5">Other products you may like</p>
+          <div className="row">
+            {relatedProducts?.map((product) => (
+              <div className="col-lg-4" key={product._id}>
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
