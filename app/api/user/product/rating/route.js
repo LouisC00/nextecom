@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/utils/dbConnect";
 import Product from "@/models/product";
-// import Order from "@/models/order";
+import Order from "@/models/order";
 import { currentUser } from "@/utils/currentUser";
+import { getToken } from "next-auth/jwt";
 
 export async function POST(req) {
   await dbConnect();
@@ -17,6 +18,11 @@ export async function POST(req) {
     const existingRating = product.ratings.find(
       (rate) => rate.postedBy.toString() === user._id.toString()
     );
+
+    const token = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
 
     // Check if the user has purchased the product
     const userPurchased = await Order.findOne({
