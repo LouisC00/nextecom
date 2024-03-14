@@ -14,8 +14,20 @@ export async function GET(req, context) {
         model: "User",
         select: "name",
       });
-    return NextResponse.json(product);
+
+    // Fetch related products based on category or tags
+    const relatedProducts = await Product.find({
+      $or: [
+        { category: product.category }, // Fetch products in the same category
+        { tags: { $in: product.tags } }, // Fetch products with similar tags
+      ],
+      _id: { $ne: product._id }, // Exclude the current product
+    }).limit(3); // Limit the number of related products
+
+    return NextResponse.json({ product, relatedProducts });
   } catch (err) {
+    console.log(err);
+
     return NextResponse.json(
       {
         err: err.message,
