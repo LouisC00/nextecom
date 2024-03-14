@@ -17,20 +17,21 @@ export async function POST(req) {
     const existingRating = product.ratings.find(
       (rate) => rate.postedBy.toString() === user._id.toString()
     );
-    // Check if the user has purchased the product
-    // const userPurchased = await Order.findOne({
-    //   userId: token.user._id,
-    //   "cartItems._id": productId,
-    // });
 
-    // if (!userPurchased) {
-    //   return NextResponse.json(
-    //     {
-    //       err: "You can only leave a review for products you've purchased.",
-    //     },
-    //     { status: 400 }
-    //   );
-    // }
+    // Check if the user has purchased the product
+    const userPurchased = await Order.findOne({
+      userId: token.user._id,
+      "cartItems._id": productId,
+    });
+
+    if (!userPurchased) {
+      return NextResponse.json(
+        {
+          err: "You can only leave a review for products you've purchased.",
+        },
+        { status: 400 }
+      );
+    }
 
     if (existingRating) {
       // Update the existing rating
