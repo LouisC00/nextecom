@@ -6,7 +6,7 @@ export default function UserNav() {
       <Link href="/dashboard/user" className="nav-link">
         Dashboard
       </Link>
-      <Link href="/dashboard/user/order" className="nav-link">
+      <Link href="/dashboard/user/orders" className="nav-link">
         Orders
       </Link>
     </nav>
