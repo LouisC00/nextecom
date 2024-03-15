@@ -44,7 +44,15 @@ export default function ProductCard({ product }) {
       </div>
 
       <div className="card-footer d-flex justify-content-between">
-        <small>Category: {product?.category?.name}</small>
+        <small>
+          Category:{" "}
+          <Link
+            href={`/category/${product?.category?.slug}`}
+            className="tag-link"
+          >
+            {product?.category?.name}
+          </Link>
+        </small>
         <small>
           Tags:{" "}
           {product?.tags?.map((t) => (
