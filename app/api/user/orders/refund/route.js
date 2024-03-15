@@ -41,7 +41,7 @@ export async function POST(req) {
     }
 
     order.status = "Refunded";
-    order.refund = true;
+    order.refunded = true;
     order.delivery_status = "Cancelled";
     order.refundId = refund.id;
     await order.save();

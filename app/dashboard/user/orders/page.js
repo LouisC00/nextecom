@@ -113,10 +113,10 @@ export default function UserOrders() {
                         </a>
                       </td>
                     </tr>
-                    <tr>
+                    {/* <tr>
                       <th scope="row">Refunded:</th>
                       <td>{order?.refunded ? "Yes" : "No"}</td>
-                    </tr>
+                    </tr> */}
                     <tr>
                       <th scope="row">Status:</th>
                       <td>{order?.status}</td>
