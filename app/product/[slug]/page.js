@@ -68,7 +68,14 @@ export default async function ProductViewPage({ params }) {
 
           <div className="card-footer d-flex justify-content-between">
             <small className="text-muted">
-              Category: {product?.category.name}
+              Category:{" "}
+              <Link
+                key={product?._id}
+                href={`/category/${product?.category.slug}`}
+                className="tag-link"
+              >
+                {product?.category.name}
+              </Link>
             </small>
             <small className="text-muted">
               Tags:{" "}
