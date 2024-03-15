@@ -1,26 +1,38 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Pagination from "@/components/product/Pagination";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 export default function UserOrders() {
   const [orders, setOrders] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page");
 
   useEffect(() => {
-    fetchOrders();
-  }, []);
+    fetchOrders(page);
+  }, [page]);
 
-  const fetchOrders = async () => {
+  const fetchOrders = async (page) => {
     try {
-      const response = await fetch(`${process.env.API}/user/orders`, {
-        method: "GET",
-      });
+      const response = await fetch(
+        `${process.env.API}/user/orders?page=${page}`,
+        {
+          method: "GET",
+        }
+      );
 
       const data = await response.json();
-      setOrders(data);
+      setOrders(data.orders);
+      setCurrentPage(data.currentPage);
+      setTotalPages(data.totalPages);
       setLoading(false);
     } catch (err) {
       console.log(err);
@@ -179,6 +191,11 @@ export default function UserOrders() {
         </div>
       </div>
       {/* <pre>{JSON.stringify(orders, null, 4)}</pre> */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        pathname={pathname}
+      />
     </div>
   );
 }
