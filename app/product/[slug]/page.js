@@ -7,6 +7,7 @@ import UserReviews from "@/components/product/UserReviews";
 import CouponCode from "@/components/product/CouponCode";
 import AddToCart from "@/components/product/AddToCart";
 import ProductCard from "@/components/product/ProductCard";
+import Link from "next/link";
 
 export async function generateMetadata({ params }) {
   const product = await getProduct(params?.slug);
@@ -70,7 +71,16 @@ export default async function ProductViewPage({ params }) {
               Category: {product?.category.name}
             </small>
             <small className="text-muted">
-              Tags: {product.tags.map((tag) => tag.name).join(" ")}
+              Tags:{" "}
+              {product.tags.map((tag) => (
+                <Link
+                  key={tag?._id}
+                  href={`/tag/${tag?.slug}`}
+                  className="tag-link"
+                >
+                  {tag?.name}{" "}
+                </Link>
+              ))}
             </small>{" "}
           </div>
 
