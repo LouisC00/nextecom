@@ -48,7 +48,9 @@ export default function ProductCard({ product }) {
         <small>
           Tags:{" "}
           {product?.tags?.map((t) => (
-            <span key={t?._id}>{t?.name}</span>
+            <Link key={t?._id} href={`/tag/${t?.slug}`} className="tag-link">
+              {t?.name + " "}
+            </Link>
           ))}
         </small>
       </div>
