@@ -14,7 +14,7 @@ const ProductList = ({ products, currentPage, totalPages }) => {
   return (
     <div className="container my-5">
       <div className="row gx-3">
-        {products.map((product) => (
+        {products?.map((product) => (
           <div key={product._id} className="col-lg-4 col-md-6 mb-4">
             <div
               className="card h-100"
