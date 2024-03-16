@@ -38,7 +38,9 @@ export async function GET(req) {
 
     const allProducts = await Product.find(filter)
       .populate("category", "name")
+      .populate("category", "name slug")
       .populate("tags", "name")
+      .populate("tags", "name slug")
       .sort({ createdAt: -1 });
 
     const calculateAverageRating = (ratings) => {
