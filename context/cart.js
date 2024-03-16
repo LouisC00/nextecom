@@ -12,14 +12,19 @@ export const CartProvider = ({ children }) => {
 
   // load cart items from local storage on component mount
   useEffect(() => {
-    const storedCartItmes = JSON.parse(localStorage.getItem("cartItems"));
-    setCartItems(storedCartItmes);
+    const storedCartItems = JSON.parse(localStorage.getItem("cartItems"));
+    setCartItems(storedCartItems);
   }, []);
 
   // save cart items to local storage when cart items change
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    if (cartItems.length > 0) {
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    }
   }, [cartItems]);
+  // useEffect(() => {
+  //   localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  // }, [cartItems]);
 
   // add to cart
   const addToCart = (product, quantity) => {
