@@ -7,7 +7,20 @@ export async function PUT(req, context) {
   const body = await req.json();
 
   try {
-    const order = await Order.findByIdAndUpdate(
+    const order = await Order.findById(context.params.orderId);
+
+    if (!order) {
+      return NextResponse.json({ err: "Order not found" }, { status: 404 });
+    }
+
+    if (order.refunded) {
+      return NextResponse.json(
+        { err: "Cannot update delivery status for a refunded order" },
+        { status: 400 }
+      );
+    }
+
+    const updatedOrder = await Order.findByIdAndUpdate(
       context.params.orderId,
       {
         delivery_status: body.delivery_status,
@@ -15,7 +28,7 @@ export async function PUT(req, context) {
       { new: true }
     );
 
-    return NextResponse.json(order);
+    return NextResponse.json(updatedOrder);
   } catch (err) {
     console.log(err);
     return NextResponse.json(
