@@ -1,72 +1,22 @@
-// components/product/cart/Step2
+import { useEffect } from "react";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { useState } from "react";
-import toast from "react-hot-toast";
 import { useCart } from "@/context/cart";
 import OrderSummary from "@/components/cart/OrderSummary";
+import { useRouter } from "next/navigation";
 
-// SKIP DELIVERY ADDRESS PART
-// USE STRIPE CHECKOUT TO GRAB USER DELIVERY ADDRESS
 export default function Step2({ onNextStep, onPrevStep }) {
-  const { data, status, update } = useSession();
+  const { data, status } = useSession();
   const { couponCode, setCouponCode, handleCoupon } = useCart();
+  const router = useRouter();
 
-  // state
-  const [deliveryAddress, setDeliveryAddress] = useState(
-    data?.user?.deliveryAddress || ""
-  );
-  // update or confirm delivery address on next click
-  const handleAddressThenNext = async () => {
-    onNextStep();
-    // // update delivery address
-    // try {
-    //   const response = await fetch(`${process.env.API}/user/profile`, {
-    //     method: "PUT",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ deliveryAddress }),
-    //   });
-    //   if (!response.ok) {
-    //     const data = await response.json();
-    //     toast.error(data.err);
-    //     return;
-    //   } else {
-    //     const data = await response.json();
-    //     // console.log("address updated, update user session", data);
-    //     update({ user: { ...data.user, deliveryAddress: data } });
-    //     // take to next step
-    //     onNextStep();
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    //   // setLoading(false);
-    //   toast.error("An error occurred. Please try again.");
-    // }
-  };
+  useEffect(() => {
+    if (status !== "authenticated") {
+      router.push(`/login?callbackUrl=${window.location.href}`);
+    }
+  }, [status, router]);
 
   if (status !== "authenticated") {
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-8 offset-lg-2">
-            <div className="d-flex justify-content-end my-4">
-              <button
-                className="btn btn-outline-danger btn-raised col-6"
-                onClick={onPrevStep}
-              >
-                Previous
-              </button>
-              <Link
-                className="btn btn-primary btn-raised col-6"
-                href={`/login?callbackUrl=${window.location.href}`}
-              ></Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return null; // Render nothing or a loading spinner while redirecting
   }
 
   return (
@@ -75,7 +25,6 @@ export default function Step2({ onNextStep, onPrevStep }) {
         <div className="col-lg-8">
           <p className="alert alert-primary">Contact Details / Login</p>
           <div>
-            {" "}
             <input
               type="text"
               value={data?.user?.name}
@@ -90,16 +39,6 @@ export default function Step2({ onNextStep, onPrevStep }) {
               placeholder="Your email"
               disabled
             />
-            {/* delivery address */}
-            {/* <textarea
-              maxLength="320"
-              value={deliveryAddress}
-              onChange={(e) => setDeliveryAddress(e.target.value)}
-              className="form-control mb-2 px-2 mt-4"
-              placeholder="Enter your delivery address"
-              rows="5"
-            /> */}
-            {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
           </div>
 
           <div>
@@ -130,8 +69,6 @@ export default function Step2({ onNextStep, onPrevStep }) {
             <button
               className="btn btn-primary btn-raised col-6"
               onClick={onNextStep}
-              // onClick={handleAddressThenNext}
-              // disabled={!deliveryAddress.trim()}
             >
               Next
             </button>
