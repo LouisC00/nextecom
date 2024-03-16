@@ -20,7 +20,7 @@ export default function UserStripeSuccess() {
           </p>
           <hr />
           <Link
-            className="btn btn-primary btn-raised"
+            className="btn btn-success btn-raised"
             href="/dashboard/user/orders"
           >
             View Order Status
