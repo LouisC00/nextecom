@@ -70,7 +70,7 @@ export default function ProductLike({ product }) {
 
   return (
     <small className="text-muted pointer" onClick={handleLike}>
-      ❤{" "}
+      ❤️{" "}
       {likes?.length
         ? `${likes.length} people liked`
         : "Be the first person to like"}
