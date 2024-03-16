@@ -64,7 +64,12 @@ export default function ProductCard({ product }) {
       </div>
 
       <div className="card-footer d-flex justify-content-between">
-        <small>❤️Likes</small>
+        <small>
+          ❤️
+          {product?.likes?.length
+            ? `${product?.likes.length} people liked`
+            : "Be the first person to like"}
+        </small>
         <small>Posted {dayjs(product?.createdAt).fromNow()}</small>
       </div>
 
