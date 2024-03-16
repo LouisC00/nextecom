@@ -11,9 +11,24 @@ export const CartProvider = ({ children }) => {
   const [validCoupon, setValidCoupon] = useState(false);
 
   // load cart items from local storage on component mount
+  // useEffect(() => {
+  //   const storedCartItems = JSON.parse(localStorage.getItem("cartItems") || []);
+  //   setCartItems(storedCartItems);
+  // }, []);
+
   useEffect(() => {
-    const storedCartItems = JSON.parse(localStorage.getItem("cartItems"));
-    setCartItems(storedCartItems);
+    const storedCartItemsString = localStorage.getItem("cartItems");
+    if (storedCartItemsString && storedCartItemsString !== "") {
+      try {
+        const storedCartItems = JSON.parse(storedCartItemsString);
+        setCartItems(storedCartItems);
+      } catch (error) {
+        console.error("Error parsing cart items from local storage:", error);
+        setCartItems([]);
+      }
+    } else {
+      setCartItems([]);
+    }
   }, []);
 
   // save cart items to local storage when cart items change
