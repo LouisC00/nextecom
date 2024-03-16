@@ -123,10 +123,10 @@ export default function AdminOrders() {
                         </a>
                       </td>
                     </tr>
-                    <tr>
+                    {/* <tr>
                       <th scope="row">Refunded:</th>
                       <td>{order?.refunded ? "Yes" : "No"}</td>
-                    </tr>
+                    </tr> */}
                     <tr>
                       <th scope="row">Status:</th>
                       <td>{order?.status}</td>
@@ -179,22 +179,22 @@ export default function AdminOrders() {
                     <tr>
                       <th scope="row">Delivery Status</th>
                       <td>
-                        <select
-                          className="form-control"
-                          onChange={(e) =>
-                            handleStatusChange(e.target.value, order?._id)
-                          }
-                          value={order?.delivery_status}
-                          ddisabled={order?.refunded}
-                        >
-                          <option value="Not Processed">Not Processed</option>
-                          <option value="Processing">Processing</option>
-                          <option value="Dispatched">Dispatched</option>
-                          {order?.refunded && (
-                            <option value="Cancelled">Cancelled</option>
-                          )}
-                          <option value="Devilered">Devilered</option>
-                        </select>
+                        {order?.status === "Refunded" ? (
+                          <span className="text-danger">Cancelled</span>
+                        ) : (
+                          <select
+                            className="form-control"
+                            onChange={(e) =>
+                              handleStatusChange(e.target.value, order?._id)
+                            }
+                            value={order?.delivery_status}
+                          >
+                            <option value="Not Processed">Not Processed</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Dispatched">Dispatched</option>
+                            <option value="Delivered">Delivered</option>
+                          </select>
+                        )}
                       </td>
                     </tr>
                   </tbody>
