@@ -42,7 +42,7 @@ export default function Step1({ onNextStep }) {
                         href={`/product/${product?.slug}`}
                         as={`/product/${product?.slug}`}
                       >
-                        {product.title} [{product?.images?.length} ]
+                        {product.title}
                       </Link>
                     </h5>
                     <h4>${product?.price.toFixed(2)}</h4>
