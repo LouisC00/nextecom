@@ -13,13 +13,13 @@ export async function GET(req, context) {
     const totalOrders = await Order.countDocuments();
     const totalCategories = await Category.countDocuments();
     const totalTags = await Tag.countDocuments();
-    const totalBlogs = await Blog.countDocuments();
+    // const totalBlogs = await Blog.countDocuments();
     const data = [
       { label: "Products", count: totalProducts },
       { label: "Orders", count: totalOrders },
       { label: "Categories", count: totalCategories },
       { label: "Tags", count: totalTags },
-      { label: "Blogs", count: totalBlogs },
+      // { label: "Blogs", count: totalBlogs },
     ];
     return NextResponse.json({ data });
   } catch (err) {

@@ -12,7 +12,7 @@ export async function GET(req) {
   const userId = user._id;
 
   try {
-    const totalLikedBlogs = await Blog.countDocuments({ likes: userId });
+    // const totalLikedBlogs = await Blog.countDocuments({ likes: userId });
     const totalOrders = await Order.countDocuments({ userId });
     const totalReviews = await Product.countDocuments({
       "ratings.postedBy": userId,
@@ -26,11 +26,11 @@ export async function GET(req) {
         url: "/dashboard/user/orders",
         count: totalOrders,
       },
-      {
-        label: "Liked Blogs",
-        url: "/dashboard/user/liked/blogs",
-        count: totalLikedBlogs,
-      },
+      // {
+      //   label: "Liked Blogs",
+      //   url: "/dashboard/user/liked/blogs",
+      //   count: totalLikedBlogs,
+      // },
       {
         label: "Product Reviews",
         url: "/dashboard/user/product/reviews",
