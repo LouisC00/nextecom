@@ -33,7 +33,11 @@ export default function ProductList() {
       <div className="row gx-3">
         {/* <pre>{JSON.stringify(products, null, 4)}</pre> */}
         {products?.map((product) => (
-          <div key={product?._id} className="col-lg-6 card my-3">
+          <div
+            key={product?._id}
+            className="col-lg-6 card my-3 pointer"
+            onClick={() => handleClick(product)}
+          >
             <div style={{ height: "200px", overflow: "hidden" }}>
               <Image
                 src={product?.images[0]?.secure_url || "/images/default.jpeg"}
@@ -49,8 +53,8 @@ export default function ProductList() {
             </div>
             <div className="card-body">
               <h5
-                className="card-title pointer"
-                onClick={() => handleClick(product)}
+                className="card-title"
+                // onClick={() => handleClick(product)}
               >
                 ${product?.price?.toFixed(2)} {product?.title}
               </h5>
