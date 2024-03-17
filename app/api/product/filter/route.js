@@ -58,13 +58,20 @@ export async function GET(req) {
       averageRating: calculateAverageRating(product.ratings),
     }));
 
+    // const filteredProducts = productsWithAverageRating.filter((product) => {
+    //   if (!ratings) return true;
+
+    //   const targetRating = Number(ratings);
+    //   const difference = product.averageRating - targetRating;
+
+    //   return difference >= -0.5 && difference <= 0.5;
+    // });
+
     const filteredProducts = productsWithAverageRating.filter((product) => {
       if (!ratings) return true;
 
       const targetRating = Number(ratings);
-      const difference = product.averageRating - targetRating;
-
-      return difference >= -0.5 && difference <= 0.5;
+      return product.averageRating >= targetRating;
     });
 
     const totalFilteredProducts = filteredProducts.length;
