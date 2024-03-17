@@ -67,7 +67,7 @@ export default function ProductCreate() {
                 description: e.target.value,
               })
         }
-      ></textarea>
+      />
 
       <input
         type="number"
@@ -190,34 +190,34 @@ export default function ProductCreate() {
         </select>
       </div>
 
-      {/* tags not working */}
       <div className="d-flex flex-wrap justify-content-evenly align-items-center">
         {tags
           ?.filter(
             (ft) =>
               ft?.parentCategory ===
-              (updateProduct?.category?._id || product?.category?._id)
+              (updatingProduct?.category?._id || product?.category?._id)
           )
           ?.map((tag) => (
-            <div key={tag._id} className="form-check">
+            <div key={tag?._id} className="form-check">
               <input
                 type="checkbox"
                 value={tag?._id}
-                checked={updatingProduct?.tags?.some((t) => t._id === tag._id)}
+                checked={
+                  updatingProduct
+                    ? updatingProduct.tags.some((t) => t._id === tag._id)
+                    : product.tags.some((t) => t._id === tag._id)
+                }
                 onChange={(e) => {
                   const tagId = e.target.value;
                   const tagName = tag?.name;
-
                   let selectedTags = updatingProduct
-                    ? [...(updatingProduct.tags ?? [])]
+                    ? [...(updatingProduct?.tags ?? [])]
                     : [...(product?.tags ?? [])];
-
                   if (e.target.checked) {
                     selectedTags.push({ _id: tagId, name: tagName });
                   } else {
                     selectedTags = selectedTags.filter((t) => t._id !== tagId);
                   }
-
                   if (updatingProduct) {
                     setUpdatingProduct({
                       ...updatingProduct,
@@ -227,7 +227,7 @@ export default function ProductCreate() {
                     setProduct({ ...product, tags: selectedTags });
                   }
                 }}
-              />
+              />{" "}
               <label>{tag?.name}</label>
             </div>
           ))}
