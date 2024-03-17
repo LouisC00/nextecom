@@ -58,32 +58,37 @@ export default function ProductFilter({ searchParams }) {
       <p className="mt-4 alert alert-primary">Price</p>
       <div className="row d-flex align-items-center mx-1">
         {priceRanges?.map((range) => {
-          const url = {
-            pathname,
-            query: {
-              ...searchParams,
-              minPrice: range?.min,
-              maxPrice: range?.max,
-              page: 1,
-            },
-          };
           const isActive =
             minPrice === String(range?.min) && maxPrice === String(range?.max);
 
+          const handleFilterClick = () => {
+            // Clear the filter
+            handleRemoveFilter(["minPrice", "maxPrice"]);
+
+            // If the filter was not previously active, reapply it
+            if (!isActive) {
+              const url = {
+                pathname,
+                query: {
+                  ...searchParams,
+                  minPrice: range?.min,
+                  maxPrice: range?.max,
+                  page: 1,
+                },
+              };
+              const queryString = new URLSearchParams(url.query).toString();
+              router.push(`${url.pathname}?${queryString}`);
+            }
+          };
+
           return (
             <div key={range?.label}>
-              <Link href={url} className={isActive ? activeButton : button}>
+              <button
+                onClick={handleFilterClick}
+                className={isActive ? activeButton : button}
+              >
                 {range?.label}
-              </Link>
-
-              {isActive && (
-                <span
-                  onClick={() => handleRemoveFilter(["minPrice", "maxPrice"])}
-                  className="pointer"
-                >
-                  X
-                </span>
-              )}
+              </button>
             </div>
           );
         })}
@@ -113,49 +118,48 @@ export default function ProductFilter({ searchParams }) {
               >
                 <Stars rating={ratingValue} />
               </Link>
-              {isActive && (
-                <span
-                  onClick={() => handleRemoveFilter("ratings")}
-                  className="pointer"
-                >
-                  {" "}
-                  X
-                </span>
-              )}
             </div>
           );
         })}
       </div>
-      <p className="mt-4 alert alert-primary">Categories</p>
+
+      <p className="mt-4 alert alert-primary">Category</p>
       <div className="row d-flex align-items-center mx-1 filter-scroll">
         {categories?.map((c) => {
           const isActive = category === c._id;
-          const url = {
-            pathname,
-            query: {
-              ...searchParams,
-              category: c?._id,
-              page: 1,
-            },
+
+          const handleCategoryClick = () => {
+            // Clear the category filter
+            handleRemoveFilter("category");
+
+            // If the category was not previously active, reapply it
+            if (!isActive) {
+              const url = {
+                pathname,
+                query: {
+                  ...searchParams,
+                  category: c?._id,
+                  page: 1,
+                },
+              };
+              const queryString = new URLSearchParams(url.query).toString();
+              router.push(`${url.pathname}?${queryString}`);
+            }
           };
+
           return (
             <div key={c._id}>
-              <Link href={url} className={isActive ? activeButton : button}>
+              <button
+                onClick={handleCategoryClick}
+                className={isActive ? activeButton : button}
+              >
                 {c?.name}
-              </Link>
-              {isActive && (
-                <span
-                  onClick={() => handleRemoveFilter("category")}
-                  className="pointer"
-                >
-                  {" "}
-                  X
-                </span>
-              )}
+              </button>
             </div>
           );
         })}
       </div>
+
       {category && (
         <>
           <p className="mt-4 alert alert-primary">Tags</p>
@@ -202,6 +206,41 @@ scroll"
       <div className="row d-flex align-items-center mx-1 filter-scroll">
         {brands?.map((b) => {
           const isActive = brand === b;
+
+          const handleBrandClick = () => {
+            // Clear the brand filter
+            handleRemoveFilter("brand");
+
+            // If the brand was not previously active, reapply it
+            if (!isActive) {
+              const url = {
+                pathname,
+                query: {
+                  ...searchParams,
+                  brand: b,
+                  page: 1,
+                },
+              };
+              const queryString = new URLSearchParams(url.query).toString();
+              router.push(`${url.pathname}?${queryString}`);
+            }
+          };
+
+          return (
+            <div key={b}>
+              <button
+                onClick={handleBrandClick}
+                className={isActive ? activeButton : button}
+              >
+                {b}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+      {/* <div className="row d-flex align-items-center mx-1 filter-scroll">
+        {brands?.map((b) => {
+          const isActive = brand === b;
           const url = {
             pathname,
             query: {
@@ -227,7 +266,7 @@ scroll"
             </div>
           );
         })}
-      </div>
+      </div> */}
       {/* <pre>{JSON.stringify(tags, null, 4)}</pre> */}
     </div>
   );
