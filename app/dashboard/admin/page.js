@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import AdminChart from "@/components/admin/AdminChart";
+import Loading from "@/app/loading";
 
 export default function AdminDashboard() {
   const [chartData, setChartData] = useState([]);
@@ -24,14 +25,7 @@ export default function AdminDashboard() {
   };
 
   if (loading) {
-    return (
-      <div
-        className="d-flex justify-content-center align-items-center
-text-danger vh-100 h1"
-      >
-        LOADING...
-      </div>
-    );
+    return <Loading />;
   }
 
   return (

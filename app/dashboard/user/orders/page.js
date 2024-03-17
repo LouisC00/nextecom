@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Pagination from "@/components/product/Pagination";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import Loading from "@/app/loading";
 
 export default function UserOrders() {
   const [orders, setOrders] = useState([]);
@@ -64,11 +65,7 @@ export default function UserOrders() {
   };
 
   if (loading) {
-    return (
-      <div className="d-flex justify-content-center align-items-center vh-100 h1">
-        LOADING...
-      </div>
-    );
+    return <Loading />;
   }
 
   if (!orders?.length) {
