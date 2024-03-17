@@ -22,7 +22,7 @@ async function getTag(slug) {
     });
 
     const data = await response.json();
-    console.log("tags page response => ", data);
+    // console.log("tags page response => ", data);
     return data;
   } catch (error) {
     console.error("Error fetching search results:", error);

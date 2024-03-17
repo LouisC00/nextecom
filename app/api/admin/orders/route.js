@@ -7,7 +7,7 @@ export async function GET(req) {
   await dbConnect();
   // req.nextUrl.searchParams.get('page')
   const searchParams = queryString.parseUrl(req.url).query;
-  console.log("searchParams in admin orders => ", searchParams.page);
+  // console.log("searchParams in admin orders => ", searchParams.page);
 
   const { page } = searchParams || {};
   const pageSize = 3;
