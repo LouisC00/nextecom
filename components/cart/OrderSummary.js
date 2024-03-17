@@ -30,8 +30,7 @@ export default function OrderSummary() {
                 <div style={{ height: "66px", overflow: "hidden" }}>
                   <Image
                     src={
-                      product?.images?.[0]?.secure_url ||
-                      "/images/new-wave.jpeg"
+                      product?.images?.[0]?.secure_url || "/images/default.jpeg"
                     }
                     className="card-img-top"
                     width={500}

@@ -21,7 +21,7 @@ export default function Step1({ onNextStep }) {
                     <Image
                       src={
                         product?.images?.[0]?.secure_url ||
-                        "/images/new-wave.jpeg"
+                        "/images/default.jpeg"
                       }
                       className="card-img-top"
                       width={500}

@@ -8,7 +8,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 export async function POST(req) {
   await dbConnect();
   const _req = await req.json();
-  console.log("_req in stripe checkout session api", _req);
+  // console.log("_req in stripe checkout session api", _req);
   const token = await getToken({
     req,
     secret: process.env.NEXTAUTH_SECRET,
@@ -24,7 +24,12 @@ export async function POST(req) {
             currency: "cad",
             product_data: {
               name: product.title,
-              images: [product.images[0].secure_url],
+              images: [
+                product.images.length > 0
+                  ? product.images[0].secure_url
+                  : `${process.env.DOMAIN}/images/default.jpeg'`,
+              ],
+              // images: [product.images[0].secure_url ],
             },
             unit_amount: unitAmount,
           },
