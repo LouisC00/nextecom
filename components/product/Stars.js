@@ -13,5 +13,5 @@ export default function Stars({ rating }) {
     }
   }
 
-  return <>{stars}</>;
+  return <>{stars} & Up</>;
 }
