@@ -11,37 +11,37 @@ dayjs.extend(relativeTime);
 export default function ProductCard({ product }) {
   return (
     <div key={product?._id} className="card my-3">
-      <div style={{ height: "200px", overflow: "hidden" }}>
-        <Image
-          src={product?.images?.[0]?.secure_url || "/images/default.jpeg"}
-          width={500}
-          height={300}
-          style={{ objectFit: "cover", width: "100%", height: "100%" }}
-          alt={product?.title}
-        />
-      </div>
-      <div className="card-body">
-        <Link href={`/product/${product?.slug}`}>
+      <Link href={`/product/${product?.slug}`}>
+        <div style={{ height: "200px", overflow: "hidden" }}>
+          <Image
+            src={product?.images?.[0]?.secure_url || "/images/default.jpeg"}
+            width={500}
+            height={300}
+            style={{ objectFit: "cover", width: "100%", height: "100%" }}
+            alt={product?.title}
+          />
+        </div>
+        <div className="card-body">
           <h5 className="card-title">
             <strong>${product?.price?.toFixed(2)}</strong> {product?.title}
           </h5>
-        </Link>
-        {product?.previousPrice > product?.price && (
-          <h5 className="card-title">
-            <del className="card-title alert-danger">
-              ${product?.previousPrice?.toFixed(2)}
-            </del>
-          </h5>
-        )}
-        <div
-          dangerouslySetInnerHTML={{
-            __html:
-              product?.description?.length > 160
-                ? `${product?.description?.substring(0, 160)}..`
-                : product?.description,
-          }}
-        />
-      </div>
+          {product?.previousPrice > product?.price && (
+            <h5 className="card-title">
+              <del className="card-title alert-danger">
+                ${product?.previousPrice?.toFixed(2)}
+              </del>
+            </h5>
+          )}
+          <div
+            dangerouslySetInnerHTML={{
+              __html:
+                product?.description?.length > 160
+                  ? `${product?.description?.substring(0, 160)}..`
+                  : product?.description,
+            }}
+          />
+        </div>
+      </Link>
 
       <div className="card-footer d-flex justify-content-between">
         <small>
