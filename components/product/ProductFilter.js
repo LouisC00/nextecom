@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { priceRanges } from "@/utils/filterData";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Stars from "@/components/product/Stars";
+import StarsAndUp from "@/components/product/StarsAndUp";
 import { useCategory } from "@/context/category";
 import { useTag } from "@/context/tag";
 import { useProduct } from "@/context/product";
@@ -50,7 +50,6 @@ export default function ProductFilter({ searchParams }) {
 
   return (
     <div className="mb-5 overflow-scroll">
-      <p className="lead">Filter Products</p>
       <Link className="text-danger" href="/shop">
         Clear Filters
       </Link>
@@ -98,26 +97,38 @@ export default function ProductFilter({ searchParams }) {
       <div className="row d-flex align-items-center mx-1">
         {[5, 4, 3, 2, 1].map((ratingValue) => {
           const isActive = String(ratings) === String(ratingValue);
-          const url = {
-            pathname,
-            query: {
-              ...searchParams,
-              ratings: ratingValue,
-              page: 1,
-            },
+
+          const handleRatingClick = () => {
+            // Clear the ratings filter
+            handleRemoveFilter("ratings");
+
+            // If the rating was not previously active, reapply it
+            if (!isActive) {
+              const url = {
+                pathname,
+                query: {
+                  ...searchParams,
+                  ratings: ratingValue,
+                  page: 1,
+                },
+              };
+              const queryString = new URLSearchParams(url.query).toString();
+              router.push(`${url.pathname}?${queryString}`);
+            }
           };
+
           return (
             <div key={ratingValue}>
-              <Link
-                href={url}
+              <button
+                onClick={handleRatingClick}
                 className={
                   isActive
                     ? "btn btn-primary btn-raised mx-1 rounded-pill"
                     : "btn btn-raised mx-1 rounded-pill"
                 }
               >
-                <Stars rating={ratingValue} />
-              </Link>
+                <StarsAndUp rating={ratingValue} />
+              </button>
             </div>
           );
         })}
@@ -134,6 +145,8 @@ export default function ProductFilter({ searchParams }) {
 
             // If the category was not previously active, reapply it
             if (!isActive) {
+              delete searchParams.tag;
+
               const url = {
                 pathname,
                 query: {
@@ -142,6 +155,7 @@ export default function ProductFilter({ searchParams }) {
                   page: 1,
                 },
               };
+
               const queryString = new URLSearchParams(url.query).toString();
               router.push(`${url.pathname}?${queryString}`);
             }
@@ -163,45 +177,48 @@ export default function ProductFilter({ searchParams }) {
       {category && (
         <>
           <p className="mt-4 alert alert-primary">Tags</p>
-          <div
-            className="row d-flex align-items-center mx-1 filter-
-scroll"
-          >
+          <div className="row d-flex align-items-center mx-1 filter-scroll">
             {tags
               ?.filter((t) => t?.parentCategory === category)
               ?.map((t) => {
                 const isActive = tag === t._id;
-                const url = {
-                  pathname,
-                  query: {
-                    ...searchParams,
-                    tag: t?._id,
-                    page: 1,
-                  },
+
+                const handleTagClick = () => {
+                  // Clear the tag filter
+                  handleRemoveFilter("tag");
+
+                  // If the tag was not previously active, reapply it
+                  if (!isActive) {
+                    const url = {
+                      pathname,
+                      query: {
+                        ...searchParams,
+                        tag: t?._id,
+                        page: 1,
+                      },
+                    };
+                    const queryString = new URLSearchParams(
+                      url.query
+                    ).toString();
+                    router.push(`${url.pathname}?${queryString}`);
+                  }
                 };
+
                 return (
                   <div key={t._id}>
-                    <Link
-                      href={url}
+                    <button
+                      onClick={handleTagClick}
                       className={isActive ? activeButton : button}
                     >
                       {t?.name}
-                    </Link>
-                    {isActive && (
-                      <span
-                        onClick={() => handleRemoveFilter("tag")}
-                        className="pointer"
-                      >
-                        {" "}
-                        X
-                      </span>
-                    )}
+                    </button>
                   </div>
                 );
               })}
-          </div>{" "}
+          </div>
         </>
       )}
+
       <p className="mt-4 alert alert-primary">Brands</p>
       <div className="row d-flex align-items-center mx-1 filter-scroll">
         {brands?.map((b) => {
