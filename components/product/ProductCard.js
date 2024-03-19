@@ -83,7 +83,7 @@ export default function ProductCard({ product }) {
         <div className="bg-warning text-center">
           {stockStatus(product?.stock)}
         </div>
-        <AddToCart product={product} />
+        {product?.stock > 0 && <AddToCart product={product} />}
       </div>
     </div>
   );
