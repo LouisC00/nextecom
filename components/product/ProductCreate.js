@@ -205,7 +205,7 @@ export default function ProductCreate() {
                 checked={
                   updatingProduct
                     ? updatingProduct.tags.some((t) => t._id === tag._id)
-                    : product.tags.some((t) => t._id === tag._id)
+                    : product?.tags?.some((t) => t._id === tag._id)
                 }
                 onChange={(e) => {
                   const tagId = e.target.value;
