@@ -22,7 +22,10 @@ export async function GET(req, context) {
         { tags: { $in: product.tags } }, // Fetch products with similar tags
       ],
       _id: { $ne: product._id }, // Exclude the current product
-    }).limit(3); // Limit the number of related products
+    })
+      .populate("category", "name slug")
+      .populate("tags", "name slug")
+      .limit(3); // Limit the number of related products
 
     return NextResponse.json({ product, relatedProducts });
   } catch (err) {
