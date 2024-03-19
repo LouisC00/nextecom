@@ -12,7 +12,7 @@ export default function ProductCard({ product }) {
   return (
     <div key={product?._id} className="card my-3">
       <Link href={`/product/${product?.slug}`}>
-        <div style={{ height: "200px", overflow: "hidden" }}>
+        <div style={{ height: "250px", overflow: "hidden" }}>
           <Image
             src={product?.images?.[0]?.secure_url || "/images/default.jpeg"}
             width={500}
@@ -22,7 +22,7 @@ export default function ProductCard({ product }) {
           />
         </div>
         <div className="card-body">
-          <h5 className="card-title">{product?.title}</h5>
+          <h5>{product?.title}</h5>
           <h5>
             <strong>${product?.price?.toFixed(2)} </strong>
           </h5>
