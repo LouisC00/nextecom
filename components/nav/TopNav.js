@@ -70,10 +70,10 @@ export default function TopNav() {
           <a className="nav-link text-anger">Loading</a>
         ) : (
           <div className="d-flex">
-            <Link href="login" className="nav-link">
+            <Link href="/login" className="nav-link">
               Login
             </Link>
-            <Link href="register" className="nav-link">
+            <Link href="/register" className="nav-link">
               Register
             </Link>
           </div>
