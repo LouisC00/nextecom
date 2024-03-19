@@ -5,7 +5,7 @@ import Link from "next/link"; // Use Link from next/link
 
 export default function TagsList({ category }) {
   // context
-  const { fetchTagsPublic, tags } = useTag();
+  const { fetchTagsPublic, tags, setUpdatingTag } = useTag();
 
   useEffect(() => {
     fetchTagsPublic();
@@ -31,17 +31,22 @@ export default function TagsList({ category }) {
       </div>
     );
   } else {
-    // Display all tags as buttons
+    // this is for editing tag in the create tag page
     return (
       <div className="container mb-5">
         <div className="row">
           <div className="col">
             {tags.map((t) => (
-              <div key={t._id}>
-                <Link href={`/tag/${t.slug}`} className="btn text-dark">
-                  {t?.slug}
-                </Link>
-              </div>
+              <button
+                key={t._id}
+                className="btn"
+                onClick={() => {
+                  setUpdatingTag(t);
+                }}
+              >
+                {" "}
+                {t.name}
+              </button>
             ))}
           </div>
         </div>
