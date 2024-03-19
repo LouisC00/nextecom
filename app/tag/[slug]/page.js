@@ -1,14 +1,13 @@
 import ProductList from "@/components/product/ProductList";
 import Link from "next/link";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ slug }) {
   const tag = await getTag(slug);
   return {
     title: tag?.name,
-    description: `Best selling products with the tag of "${tag?.name}" in
-category "${tag?.parent?.name}"`,
+    description: `Best selling products with the tag of "${tag?.name}" in category "${tag?.parent?.name}"`,
   };
 }
 

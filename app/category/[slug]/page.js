@@ -1,6 +1,7 @@
 import ProductList from "@/components/product/ProductList";
 import TagsList from "@/components/tag/TagList";
-export const dynamic = "force-dynamic";
+
+// export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ slug }) {
   const category = await getCategory(slug);
