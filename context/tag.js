@@ -47,9 +47,11 @@ export const TagProvider = ({ children }) => {
           "Content-Type": "application/json",
         },
       });
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
+
       const data = await response.json();
       setTags(data);
     } catch (error) {
@@ -65,9 +67,11 @@ export const TagProvider = ({ children }) => {
           "Content-Type": "application/json",
         },
       });
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
+
       const data = await response.json();
       setTags(data);
     } catch (error) {
