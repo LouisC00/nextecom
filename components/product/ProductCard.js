@@ -22,8 +22,9 @@ export default function ProductCard({ product }) {
           />
         </div>
         <div className="card-body">
-          <h5 className="card-title">
-            <strong>${product?.price?.toFixed(2)}</strong> {product?.title}
+          <h5 className="card-title">{product?.title}</h5>
+          <h5>
+            <strong>${product?.price?.toFixed(2)} </strong>
           </h5>
           {product?.previousPrice > product?.price && (
             <h5 className="card-title">
