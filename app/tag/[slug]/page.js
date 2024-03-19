@@ -48,8 +48,7 @@ export default async function TagViewPage({ params }) {
           </div>
           <div className="col-lg-9">
             <p className="text-center lead fw-bold">
-              Latest products with tag "{tag?.name}" from category "
-              {tag?.parentCategory?.name}"
+              Latest products with tag "{tag?.name}"
             </p>
             <ProductList products={products} />
           </div>
