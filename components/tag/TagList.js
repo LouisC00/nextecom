@@ -5,15 +5,17 @@ import Link from "next/link"; // Use Link from next/link
 
 export default function TagsList({ category }) {
   // context
-  const { tags, fetchTags, setUpdatingTag } = useTag();
+  // const { tags, fetchTags, setUpdatingTag } = useTag();
+  const { fetchTagsPublic, tags, setUpdatingTag } = useTag();
 
   useEffect(() => {
-    fetchTags();
+    fetchTagsPublic();
   }, []);
 
   if (category) {
     // Display only filtered tags within Link
-    const filteredTags = tags.filter((t) => t.parent?._id === category._id);
+    const filteredTags = tags.filter((t) => t.parentCategory === category._id);
+
     return (
       <div className="container mb-5">
         <div className="row">
@@ -43,7 +45,7 @@ export default function TagsList({ category }) {
                     setUpdatingTag(t);
                   }}
                 >
-                  {" "}
+                  {"hi"}
                   {t?.name}
                 </button>
               </div>
