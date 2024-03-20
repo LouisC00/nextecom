@@ -22,6 +22,7 @@ export const ProductProvider = ({ children }) => {
   const [comment, setComment] = useState("");
   // brand
   const [brands, setBrands] = useState([]);
+  const [brandsByCategory, setBrandsByCategory] = useState([]);
   // text based search
   const [productSearchQuery, setProductSearchQuery] = useState("");
   const [productSearchResults, setProductSearchResults] = useState([]);
@@ -206,6 +207,27 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
+  const fetchBrandsByCategory = async (category) => {
+    try {
+      const response = await fetch(
+        `/api/product/brandsByCategory?category=${category}`,
+        {
+          method: "GET",
+        }
+      );
+
+      const data = await response.json();
+      console.log("data: ", data);
+      if (!response.ok) {
+        toast.error(data.err);
+      } else {
+        setBrandsByCategory(data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const updateProduct = async () => {
     try {
       const response = await fetch(
@@ -307,6 +329,8 @@ export const ProductProvider = ({ children }) => {
         setComment,
         brands,
         fetchBrands,
+        brandsByCategory,
+        fetchBrandsByCategory,
         productSearchQuery,
         setProductSearchQuery,
         productSearchResults,
