@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import ProductRating from "./ProductRating";
+import ProductCardRating from "./ProductCardRating";
 import AddToCart from "@/components/product/AddToCart";
 import { stockStatus } from "@/utils/helpers";
 
@@ -76,7 +76,7 @@ export default function ProductCard({ product }) {
 
       <div className="card-footer d-flex justify-content-between align-items-center">
         <small>Brand: {product?.brand}</small>
-        <ProductRating product={product} leaveARating={false} />
+        <ProductCardRating product={product} />
       </div>
 
       <div className="card-footer">
