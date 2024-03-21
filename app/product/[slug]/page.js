@@ -36,8 +36,8 @@ async function getProduct(slug) {
     if (!response.ok) {
       throw new Error(`Failed to fetch products`);
     }
-
     const data = await response.json();
+
     return data;
   } catch (error) {
     console.error(error);
@@ -109,9 +109,9 @@ export default async function ProductViewPage({ params }) {
         <div className="col-lg-10 offset-lg-1">
           <p className="lead text-center my-5">Other products you may like</p>
           <div className="row">
-            {relatedProducts?.map((product) => (
-              <div className="col-lg-4" key={product._id}>
-                <ProductCard product={product} />
+            {relatedProducts?.map((p) => (
+              <div className="col-lg-4" key={p._id}>
+                <ProductCard product={p} />
               </div>
             ))}
           </div>

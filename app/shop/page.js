@@ -54,7 +54,7 @@ export default async function Shop({ searchParams }) {
 
           <div className="row">
             {products?.map((product) => (
-              <div className="col-lg-4">
+              <div className="col-lg-4" key={product._id}>
                 <ProductCard product={product} />
               </div>
             ))}

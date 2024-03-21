@@ -49,7 +49,7 @@ export default function SearchProductsPage() {
 
           <div className="row">
             {productSearchResults?.map((product) => (
-              <div className="col-lg-4">
+              <div className="col-lg-4" key={product._id}>
                 <ProductCard product={product} />
               </div>
             ))}
