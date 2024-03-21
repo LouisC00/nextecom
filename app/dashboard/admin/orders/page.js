@@ -55,20 +55,50 @@ export default function AdminOrders() {
       if (!response.ok) {
         toast.err("Failed to update order status");
       } else {
+        // Update the status of the specific order in the state
         setOrders((prevOrders) =>
-          prevOrders.map((o) =>
-            o._id === orderId ? { ...o, delivery_status: newStatus } : o
+          prevOrders.map((order) =>
+            order._id === orderId
+              ? { ...order, delivery_status: newStatus }
+              : order
           )
         );
         toast.success("Order status updated");
-        fetchOrders();
       }
-      setOrders(data);
     } catch (err) {
       console.log(err);
       toast.err("Order cancellation failed. Try again.");
     }
   };
+
+  // const handleStatusChange = async (newStatus, orderId) => {
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.API}/admin/orders/${orderId}`,
+  //       {
+  //         method: "PUT",
+  //         body: JSON.stringify({ delivery_status: newStatus }),
+  //       }
+  //     );
+
+  //     const data = await response.json();
+  //     if (!response.ok) {
+  //       toast.err("Failed to update order status");
+  //     } else {
+  //       setOrders((prevOrders) =>
+  //         prevOrders.map((o) =>
+  //           o._id === orderId ? { ...o, delivery_status: newStatus } : o
+  //         )
+  //       );
+  //       toast.success("Order status updated");
+  //       fetchOrders(page);
+  //     }
+  //     setOrders(data);
+  //   } catch (err) {
+  //     console.log(err);
+  //     toast.err("Order cancellation failed. Try again.");
+  //   }
+  // };
 
   if (loading) {
     return <Loading />;
