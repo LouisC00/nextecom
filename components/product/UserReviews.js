@@ -16,7 +16,14 @@ export default function UserReviews({ reviews }) {
                     <strong>{review.postedBy.name}</strong>
                   </p>
                   <Stars rating={review.rating} />
-                  {review?.comment && <p className="mt-3">{review.comment} </p>}
+                  {review?.comment && (
+                    <p
+                      className="mt-4 review-comment"
+                      dangerouslySetInnerHTML={{
+                        __html: review.comment.replace(/\n/g, "<br>"),
+                      }}
+                    />
+                  )}
                 </div>{" "}
               </li>
             ))}
