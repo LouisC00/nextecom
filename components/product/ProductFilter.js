@@ -58,8 +58,11 @@ export default function ProductFilter({ searchParams }) {
 
   return (
     <div className="mb-5 overflow-scroll">
-      <Link className="text-danger" href="/shop">
-        Clear Filters
+      <Link
+        className="btn btn-primary btn-raised mx-1 rounded-pill"
+        href="/shop"
+      >
+        Reset Filters
       </Link>
 
       <p className="mt-4 alert alert-primary">Price</p>
