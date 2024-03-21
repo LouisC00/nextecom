@@ -154,6 +154,7 @@ export default function ProductFilter({ searchParams }) {
             // If the category was not previously active, reapply it
             if (!isActive) {
               delete searchParams.tag;
+              delete searchParams.brand;
 
               const url = {
                 pathname,
