@@ -12,7 +12,7 @@ export default function ProductCard({ product }) {
   return (
     <div key={product?._id} className="card my-3">
       <Link href={`/product/${product?.slug}`}>
-        <div style={{ height: "250px", overflow: "hidden" }}>
+        <div style={{ height: "220px", overflow: "hidden" }}>
           <Image
             src={product?.images?.[0]?.secure_url || "/images/default.jpeg"}
             width={500}
