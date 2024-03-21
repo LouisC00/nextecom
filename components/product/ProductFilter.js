@@ -14,13 +14,21 @@ export default function ProductFilter({ searchParams }) {
   // context
   const { fetchCategoriesPublic, categories } = useCategory();
   const { fetchTagsPublic, tags } = useTag();
-  const { fetchBrands, brands } = useProduct();
+  // const { fetchBrands, brands } = useProduct();
+  const { fetchBrandsByCategory, brandsByCategory } = useProduct();
 
   useEffect(() => {
     fetchCategoriesPublic();
     fetchTagsPublic();
-    fetchBrands();
+    // fetchBrands();
   }, []);
+
+  // temporary using fetchBrandsByCategory, should make a parent Category for brands.
+  // later using migration to do it
+  useEffect(() => {
+    if (!category) return;
+    fetchBrandsByCategory(category);
+  }, [category]);
 
   const router = useRouter();
   const activeButton = "btn btn-primary btn-raised mx-1 rounded-pill";
@@ -221,7 +229,7 @@ export default function ProductFilter({ searchParams }) {
 
       <p className="mt-4 alert alert-primary">Brands</p>
       <div className="row d-flex align-items-center mx-1 filter-scroll">
-        {brands?.map((b) => {
+        {brandsByCategory?.map((b) => {
           const isActive = brand === b;
 
           const handleBrandClick = () => {
