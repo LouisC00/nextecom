@@ -148,14 +148,15 @@ export default function ProductFilter({ searchParams }) {
           const isActive = category === c._id;
 
           const handleCategoryClick = () => {
-            // Clear the category filter
-            handleRemoveFilter("category");
+            // Always reset tag and brand filters
+            delete searchParams.tag;
+            delete searchParams.brand;
 
-            // If the category was not previously active, reapply it
-            if (!isActive) {
-              delete searchParams.tag;
-              delete searchParams.brand;
-
+            // If the category was already active, remove the category filter
+            if (isActive) {
+              handleRemoveFilter("category");
+            } else {
+              // If the category was not previously active, reapply it
               const url = {
                 pathname,
                 query: {
@@ -264,35 +265,6 @@ export default function ProductFilter({ searchParams }) {
           );
         })}
       </div>
-      {/* <div className="row d-flex align-items-center mx-1 filter-scroll">
-        {brands?.map((b) => {
-          const isActive = brand === b;
-          const url = {
-            pathname,
-            query: {
-              ...searchParams,
-              brand: b,
-              page: 1,
-            },
-          };
-          return (
-            <div key={b}>
-              <Link href={url} className={isActive ? activeButton : button}>
-                {b}{" "}
-              </Link>
-              {isActive && (
-                <span
-                  onClick={() => handleRemoveFilter("brand")}
-                  className="pointer"
-                >
-                  {" "}
-                  X
-                </span>
-              )}{" "}
-            </div>
-          );
-        })}
-      </div> */}
       {/* <pre>{JSON.stringify(tags, null, 4)}</pre> */}
     </div>
   );
