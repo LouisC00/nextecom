@@ -1,15 +1,22 @@
+// MainProductRating.js
 "use client";
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter, usePathname } from "next/navigation";
-import { useProduct } from "@/context/product";
 import Stars from "@/components/product/Stars";
 import { calculateAverageRating } from "@/utils/helpers";
 import Modal from "@/components/Modal";
 import { useSession } from "next-auth/react";
 import { FaStar, FaRegStar } from "react-icons/fa";
+import { useProduct } from "@/context/product";
 
-export default function ProductRating({ product, leaveARating = true }) {
+export default function MainProductRating({ product }) {
+  // const [showRatingModal, setShowRatingModal] = useState(false);
+  // const [currentRating, setCurrentRating] = useState(0);
+  // const [comment, setComment] = useState("");
+  const [productRatings, setProductRatings] = useState(product?.ratings || []);
+  const [averageRating, setAverageRating] = useState(0);
+
   const {
     showRatingModal,
     setShowRatingModal,
@@ -18,9 +25,6 @@ export default function ProductRating({ product, leaveARating = true }) {
     comment,
     setComment,
   } = useProduct();
-
-  const [productRatings, setProductRatings] = useState(product?.ratings || []);
-  const [averageRating, setAverageRating] = useState(0);
 
   // current user
   const { data, status } = useSession();
@@ -51,9 +55,9 @@ export default function ProductRating({ product, leaveARating = true }) {
     if (status !== "authenticated") {
       toast.error("You must be logged in to leave a rating");
       router.push(`/login?callbackUrl=${pathname}`);
-
       return;
     }
+
     try {
       const response = await fetch(`${process.env.API}/user/product/rating`, {
         method: "POST",
@@ -74,7 +78,6 @@ export default function ProductRating({ product, leaveARating = true }) {
       router.refresh();
     } catch (err) {
       console.log(err);
-      // toast.error("Error leaving a rating");
       toast.error(err.message);
     }
   };
@@ -85,11 +88,9 @@ export default function ProductRating({ product, leaveARating = true }) {
         <Stars rating={averageRating} />
         <small className="text-muted"> ({productRatings?.length})</small>
       </div>
-      {leaveARating && (
-        <small onClick={() => setShowRatingModal(true)} className="pointer">
-          {alreadyRated ? "Update your rating" : "Leave a rating"}
-        </small>
-      )}
+      <small onClick={() => setShowRatingModal(true)} className="pointer">
+        {alreadyRated ? "Update your rating" : "Leave a rating"}
+      </small>
       {showRatingModal && (
         <Modal>
           <input
