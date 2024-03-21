@@ -13,7 +13,7 @@ const ratingSchema = new mongoose.Schema(
     },
     comment: {
       type: String,
-      maxLength: 1000,
+      maxLength: 2000,
     },
     postedBy: {
       type: mongoose.Schema.Types.ObjectId,
