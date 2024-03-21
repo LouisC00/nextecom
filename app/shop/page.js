@@ -65,8 +65,8 @@ export default async function Shop({ searchParams }) {
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            // searchParams={searchParams}
             pathname="/shop"
+            searchParams={searchParams}
           />
         </div>
       </div>
