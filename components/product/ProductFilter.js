@@ -229,42 +229,46 @@ export default function ProductFilter({ searchParams }) {
         </>
       )}
 
-      <p className="mt-4 alert alert-primary">Brands</p>
-      <div className="row d-flex align-items-center mx-1 filter-scroll">
-        {brandsByCategory?.map((b) => {
-          const isActive = brand === b;
+      {category && (
+        <>
+          <p className="mt-4 alert alert-primary">Brands</p>
+          <div className="row d-flex align-items-center mx-1 filter-scroll">
+            {brandsByCategory?.map((b) => {
+              const isActive = brand === b;
 
-          const handleBrandClick = () => {
-            // Clear the brand filter
-            handleRemoveFilter("brand");
+              const handleBrandClick = () => {
+                // Clear the brand filter
+                handleRemoveFilter("brand");
 
-            // If the brand was not previously active, reapply it
-            if (!isActive) {
-              const url = {
-                pathname,
-                query: {
-                  ...searchParams,
-                  brand: b,
-                  page: 1,
-                },
+                // If the brand was not previously active, reapply it
+                if (!isActive) {
+                  const url = {
+                    pathname,
+                    query: {
+                      ...searchParams,
+                      brand: b,
+                      page: 1,
+                    },
+                  };
+                  const queryString = new URLSearchParams(url.query).toString();
+                  router.push(`${url.pathname}?${queryString}`);
+                }
               };
-              const queryString = new URLSearchParams(url.query).toString();
-              router.push(`${url.pathname}?${queryString}`);
-            }
-          };
 
-          return (
-            <div key={b}>
-              <button
-                onClick={handleBrandClick}
-                className={isActive ? activeButton : button}
-              >
-                {b}
-              </button>
-            </div>
-          );
-        })}
-      </div>
+              return (
+                <div key={b}>
+                  <button
+                    onClick={handleBrandClick}
+                    className={isActive ? activeButton : button}
+                  >
+                    {b}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
       {/* <pre>{JSON.stringify(tags, null, 4)}</pre> */}
     </div>
   );
