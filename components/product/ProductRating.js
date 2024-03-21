@@ -1,6 +1,6 @@
 // MainProductRating.js
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter, usePathname } from "next/navigation";
 import Stars from "@/components/product/Stars";
@@ -26,6 +26,29 @@ export default function MainProductRating({ product }) {
     setComment,
   } = useProduct();
 
+  const adjustTextareaHeight = () => {
+    const textarea = document.querySelector(".review-textarea");
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = `${Math.min(textarea.scrollHeight, 200)}px`;
+    }
+  };
+
+  const handleTextareaInput = (e) => {
+    const newComment = e.target.value;
+
+    if (newComment.length > 2000) {
+      if (comment.length <= 2000) {
+        toast.error("Review comment cannot exceed 2000 characters");
+      }
+      return;
+    }
+
+    setComment(newComment);
+
+    adjustTextareaHeight();
+  };
+
   // current user
   const { data, status } = useSession();
   const router = useRouter();
@@ -36,25 +59,25 @@ export default function MainProductRating({ product }) {
 
   useEffect(() => {
     if (alreadyRated) {
-      setCurrentRating(alreadyRated?.rating);
-      setComment(alreadyRated?.comment);
+      setCurrentRating(alreadyRated.rating);
+      setComment(alreadyRated.comment);
     } else {
       setCurrentRating(0);
       setComment("");
     }
-  }, [alreadyRated]);
-
-  useEffect(() => {
-    if (productRatings) {
-      const average = calculateAverageRating(productRatings);
-      setAverageRating(average);
-    }
-  }, [product?.ratings]);
+    // Ensure the textarea resizes after the comment is set
+    adjustTextareaHeight();
+  }, [alreadyRated, showRatingModal]); // Also depend on showRatingModal to trigger resizing when the modal opens
 
   const submitRating = async () => {
     if (status !== "authenticated") {
       toast.error("You must be logged in to leave a rating");
       router.push(`/login?callbackUrl=${pathname}`);
+      return;
+    }
+
+    if (comment.length > 2000) {
+      toast.error("Review comment cannot exceed 2000 characters");
       return;
     }
 
@@ -93,12 +116,12 @@ export default function MainProductRating({ product }) {
       </small>
       {showRatingModal && (
         <Modal>
-          <input
-            type="text"
-            className="form-control mb-3"
+          <textarea
+            className="form-control mb-3 review-textarea"
             placeholder="Write a review"
             value={comment}
-            onChange={(e) => setComment(e.target.value)}
+            onChange={handleTextareaInput}
+            style={{ overflowY: "auto", resize: "none" }}
           />
           <div className="pointer">
             {[...Array(5)].map((_, index) => {
