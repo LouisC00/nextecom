@@ -13,7 +13,7 @@ const ratingSchema = new mongoose.Schema(
     },
     comment: {
       type: String,
-      maxLength: 200,
+      maxLength: 1000,
     },
     postedBy: {
       type: mongoose.Schema.Types.ObjectId,
@@ -31,7 +31,7 @@ const productSchema = new mongoose.Schema(
       required: true,
       unique: true,
       minLength: 1,
-      maxLength: 160,
+      maxLength: 250,
       text: true,
     },
     slug: {
