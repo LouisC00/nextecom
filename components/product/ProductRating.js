@@ -26,6 +26,13 @@ export default function MainProductRating({ product }) {
     setComment,
   } = useProduct();
 
+  useEffect(() => {
+    if (product?.ratings) {
+      const average = calculateAverageRating(product?.ratings);
+      setAverageRating(average);
+    }
+  }, [product?.ratings]);
+
   const adjustTextareaHeight = () => {
     const textarea = document.querySelector(".review-textarea");
     if (textarea) {
