@@ -33,6 +33,7 @@ async function getProduct(slug) {
 }
 
 import { useState, useEffect } from "react";
+import Loading from "@/app/loading";
 
 export default function ProductViewPage({ params }) {
   const [product, setProduct] = useState(null);
@@ -46,8 +47,6 @@ export default function ProductViewPage({ params }) {
     };
     fetchData();
   }, [params.slug]);
-
-  console.log(product);
 
   const { data } = useSession();
   const updateProductRatings = (newRating, newComment) => {
@@ -77,6 +76,9 @@ export default function ProductViewPage({ params }) {
       setProduct({ ...product, ratings: updatedRatings });
     }
   };
+
+  if (product == null) return <Loading />;
+
   return (
     <div className="container my-4">
       <div className="row">
@@ -141,11 +143,13 @@ export default function ProductViewPage({ params }) {
         <div className="col-lg-10 offset-lg-1">
           <p className="lead text-center my-5">Other products you may like</p>
           <div className="row">
-            {relatedProducts?.map((p) => (
-              <div className="col-lg-4" key={p._id}>
-                <ProductCard product={p} />
-              </div>
-            ))}
+            {relatedProducts &&
+              relatedProducts.length > 0 &&
+              relatedProducts.map((p) => (
+                <div className="col-lg-4" key={p._id}>
+                  <ProductCard product={p} />
+                </div>
+              ))}
           </div>
         </div>
       </div>
