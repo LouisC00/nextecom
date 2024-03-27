@@ -1,3 +1,4 @@
+"use client";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import ProductImage from "@/components/product/ProductImage";
@@ -8,21 +9,7 @@ import CouponCode from "@/components/product/CouponCode";
 import AddToCart from "@/components/product/AddToCart";
 import ProductCard from "@/components/product/ProductCard";
 import Link from "next/link";
-
-export async function generateMetadata({ params }) {
-  const product = await getProduct(params?.slug);
-
-  return {
-    title: product?.title,
-    description: product?.description?.substring(0, 160),
-    openGraph: {
-      images:
-        product?.images && product?.images.length > 0
-          ? product?.images[0]?.secure_url
-          : null,
-    },
-  };
-}
+import { useSession } from "next-auth/react";
 
 dayjs.extend(relativeTime);
 
@@ -45,9 +32,51 @@ async function getProduct(slug) {
   }
 }
 
-export default async function ProductViewPage({ params }) {
-  const { product, relatedProducts } = await getProduct(params?.slug);
+import { useState, useEffect } from "react";
 
+export default function ProductViewPage({ params }) {
+  const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { product, relatedProducts } = await getProduct(params?.slug);
+      setProduct(product);
+      setRelatedProducts(relatedProducts);
+    };
+    fetchData();
+  }, [params.slug]);
+
+  console.log(product);
+
+  const { data } = useSession();
+  const updateProductRatings = (newRating, newComment) => {
+    const existingRatingIndex = product.ratings.findIndex(
+      (rating) => rating.postedBy._id === data.user._id
+    );
+
+    if (existingRatingIndex !== -1) {
+      // Update the existing rating
+      const updatedRatings = [...product.ratings];
+      updatedRatings[existingRatingIndex] = {
+        ...updatedRatings[existingRatingIndex],
+        rating: newRating,
+        comment: newComment,
+      };
+      setProduct({ ...product, ratings: updatedRatings });
+    } else {
+      // Add a new rating
+      const updatedRatings = [
+        ...product.ratings,
+        {
+          rating: newRating,
+          comment: newComment,
+          postedBy: { _id: data.user._id, name: data.user.name },
+        },
+      ];
+      setProduct({ ...product, ratings: updatedRatings });
+    }
+  };
   return (
     <div className="container my-4">
       <div className="row">
@@ -79,7 +108,7 @@ export default async function ProductViewPage({ params }) {
             </small>
             <small className="text-muted">
               Tags:{" "}
-              {product.tags.map((tag) => (
+              {product?.tags?.map((tag) => (
                 <Link
                   key={tag?._id}
                   href={`/tag/${tag?.slug}`}
@@ -97,7 +126,10 @@ export default async function ProductViewPage({ params }) {
           </div>
 
           <div className="card-footer">
-            <ProductRating product={product} />
+            <ProductRating
+              product={product}
+              updateProductRatings={updateProductRatings}
+            />
             <div className="my-3">
               <AddToCart product={product} />
             </div>
