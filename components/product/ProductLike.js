@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useRouter, usePathname } from "next/navigation";
@@ -10,6 +10,10 @@ export default function ProductLike({ product }) {
   const router = useRouter();
   const pathname = usePathname();
   const isLiked = likes?.includes(data?.user?._id);
+
+  useEffect(() => {
+    setLikes(product?.likes);
+  }, [product?.likes]);
 
   const updateLikeStatus = async (url, successMessage, errorMessage) => {
     try {

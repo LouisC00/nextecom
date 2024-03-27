@@ -1,4 +1,3 @@
-// MainProductRating.js
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
@@ -10,12 +9,16 @@ import { useSession } from "next-auth/react";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { useProduct } from "@/context/product";
 
-export default function MainProductRating({ product }) {
+export default function MainProductRating({ product, updateProductRatings }) {
   // const [showRatingModal, setShowRatingModal] = useState(false);
   // const [currentRating, setCurrentRating] = useState(0);
   // const [comment, setComment] = useState("");
   const [productRatings, setProductRatings] = useState(product?.ratings || []);
   const [averageRating, setAverageRating] = useState(0);
+
+  useEffect(() => {
+    setProductRatings(product?.ratings || []);
+  }, [product?.ratings]);
 
   const {
     showRatingModal,
@@ -98,14 +101,14 @@ export default function MainProductRating({ product }) {
         }),
       });
 
-      const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.err || "Failed to leave a rating");
+        throw new Error("Failed to leave a rating");
       }
-      setProductRatings(data?.ratings);
+
+      // Update the ratings in the parent component
+      updateProductRatings(currentRating, comment);
       setShowRatingModal(false);
       toast.success("Thanks for leaving a rating");
-      router.refresh();
     } catch (err) {
       console.log(err);
       toast.error(err.message);
