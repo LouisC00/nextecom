@@ -33,7 +33,7 @@ async function getProduct(slug) {
 }
 
 import { useState, useEffect } from "react";
-import Loading from "@/app/loading";
+import Loading from "@/app/pages/loading";
 
 export default function ProductViewPage({ params }) {
   const [product, setProduct] = useState(null);
