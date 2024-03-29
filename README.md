@@ -19,9 +19,10 @@ Welcome to NextCom, a modern e-commerce platform built with Next.js and other cu
 ## Getting Started
 
 To get started with this project, clone the repository and install the dependencies:
-git clone https://github.com/your-username/nextcom.git
-cd nextcom
-npm install
+
+- git clone https://github.com/your-username/nextcom.git
+- cd nextcom
+- npm install
 
 ## Running the Application
 
