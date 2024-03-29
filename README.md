@@ -1,4 +1,4 @@
-Here's a sample GitHub README for your NextCom Script project:# NextCom - Next.js E-commerce Platform
+# NextCom - Next.js E-commerce Platform
 
 Welcome to NextCom, a modern e-commerce platform built with Next.js and other cutting-edge technologies. This project is a showcase of my skills as a full-stack developer, focusing on performance, security, and user experience.
 
@@ -19,11 +19,36 @@ Welcome to NextCom, a modern e-commerce platform built with Next.js and other cu
 ## Getting Started
 
 To get started with this project, clone the repository and install the dependencies:
-
-```bash
-git clone https://github.com/LouisC00/nextcom.git
+git clone https://github.com/your-username/nextcom.git
 cd nextcom
 npm install
-Running the ApplicationTo run the application in development mode, use the following command:npm run dev
-ContributingContributions are welcome! Feel free to open an issue or submit a pull request.LicenseThis project is licensed under the MIT License - see the LICENSE file for details.AuthorLouis - Full-stack developer specializing in modern web technologies.AcknowledgmentsNext.js Team for the amazing framework.MongoDB and Mongoose for database management.NextAuth for authentication solutions.Stripe for payment processing.ContactFor more details or to discuss potential opportunities, please visit my portfolio or connect with me on LinkedIn.Thank you for exploring NextCom. I'm open to feedback and questions, so please don't hesitate to reach out.
-```
+
+## Running the Application
+
+To run the application in development mode, use the following command:
+npm run dev
+
+## Contributing
+
+Contributions are welcome! Feel free to open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Author
+
+- **Louis** - Full-stack developer specializing in modern web technologies.
+
+## Acknowledgments
+
+- Next.js Team for the amazing framework.
+- MongoDB and Mongoose for database management.
+- NextAuth for authentication solutions.
+- Stripe for payment processing.
+
+## Contact
+
+For more details or to discuss potential opportunities, please visit my portfolio or connect with me on LinkedIn.
+
+Thank you for exploring NextCom. I'm open to feedback and questions, so please don't hesitate to reach out.
