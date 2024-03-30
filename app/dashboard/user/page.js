@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import AdminChart from "@/components/admin/AdminChart";
-import Loading from "@/app/pages/loading";
+import UserChart from "@/components/user/UserChart";
+import Loading from "@/app/loading";
 
-export default function AdminDashboard() {
+export default function UserDashboard() {
   const [chartData, setChartData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -13,7 +13,7 @@ export default function AdminDashboard() {
 
   const fetchChartData = async () => {
     try {
-      const response = await fetch(`${process.env.API}/admin/chart`);
+      const response = await fetch(`${process.env.API}/user/chart`);
       const data = await response.json();
 
       setChartData(data.data);
@@ -32,8 +32,8 @@ export default function AdminDashboard() {
     <div className="container">
       <div className="row">
         <div className="col">
-          <p className="lead text-center">Admin Dashboard</p>
-          <AdminChart chartData={chartData} />
+          <p className="lead text-center">User Dashboard</p>
+          <UserChart chartData={chartData} />
         </div>
       </div>
     </div>

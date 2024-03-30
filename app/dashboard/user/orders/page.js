@@ -1,13 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
+// import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Pagination from "@/components/product/Pagination";
-import Loading from "@/app/pages/loading";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import Loading from "@/app/loading";
 
-export default function AdminOrders() {
+export default function UserOrders() {
   const [orders, setOrders] = useState([]);
-
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -24,7 +24,7 @@ export default function AdminOrders() {
   const fetchOrders = async (page) => {
     try {
       const response = await fetch(
-        `${process.env.API}/admin/orders?page=${page}`,
+        `${process.env.API}/user/orders?page=${page}`,
         {
           method: "GET",
         }
@@ -41,64 +41,28 @@ export default function AdminOrders() {
     }
   };
 
-  const handleStatusChange = async (newStatus, orderId) => {
+  const handleCancelOrder = async (orderId) => {
     try {
       const response = await fetch(
-        `${process.env.API}/admin/orders/${orderId}`,
+        `${process.env.API}/user/orders/refund?orderId=${orderId}`,
         {
-          method: "PUT",
-          body: JSON.stringify({ delivery_status: newStatus }),
+          method: "POST",
         }
       );
 
       const data = await response.json();
       if (!response.ok) {
-        toast.err("Failed to update order status");
+        toast.err("Something went wrong.Please try again.");
       } else {
-        // Update the status of the specific order in the state
-        setOrders((prevOrders) =>
-          prevOrders.map((order) =>
-            order._id === orderId
-              ? { ...order, delivery_status: newStatus }
-              : order
-          )
-        );
-        toast.success("Order status updated");
+        toast.success("Order cancelled");
+        fetchOrders();
       }
+      setOrders(data);
     } catch (err) {
       console.log(err);
       toast.err("Order cancellation failed. Try again.");
     }
   };
-
-  // const handleStatusChange = async (newStatus, orderId) => {
-  //   try {
-  //     const response = await fetch(
-  //       `${process.env.API}/admin/orders/${orderId}`,
-  //       {
-  //         method: "PUT",
-  //         body: JSON.stringify({ delivery_status: newStatus }),
-  //       }
-  //     );
-
-  //     const data = await response.json();
-  //     if (!response.ok) {
-  //       toast.err("Failed to update order status");
-  //     } else {
-  //       setOrders((prevOrders) =>
-  //         prevOrders.map((o) =>
-  //           o._id === orderId ? { ...o, delivery_status: newStatus } : o
-  //         )
-  //       );
-  //       toast.success("Order status updated");
-  //       fetchOrders(page);
-  //     }
-  //     setOrders(data);
-  //   } catch (err) {
-  //     console.log(err);
-  //     toast.err("Order cancellation failed. Try again.");
-  //   }
-  // };
 
   if (loading) {
     return <Loading />;
@@ -126,10 +90,6 @@ export default function AdminOrders() {
               <div key={order._id} className="mb-4 p-4 alert alert-secondary">
                 <table className="table table-striped ">
                   <tbody>
-                    <tr>
-                      <th scope="row">Customer Name:</th>
-                      <td>{order?.userId?.name}</td>
-                    </tr>
                     <tr>
                       <th scope="row">Charge ID:</th>
                       <td>{order?.chargeId}</td>
@@ -206,22 +166,19 @@ export default function AdminOrders() {
                     <tr>
                       <th scope="row">Delivery Status</th>
                       <td>
-                        {order?.status === "Refunded" ? (
-                          <span className="text-danger">Cancelled</span>
-                        ) : (
-                          <select
-                            className="form-control"
-                            onChange={(e) =>
-                              handleStatusChange(e.target.value, order?._id)
-                            }
-                            value={order?.delivery_status}
-                          >
-                            <option value="Not Processed">Not Processed</option>
-                            <option value="Processing">Processing</option>
-                            <option value="Dispatched">Dispatched</option>
-                            <option value="Delivered">Delivered</option>
-                          </select>
-                        )}
+                        {order?.delivery_status}
+                        {order?.delivery_status === "Not Processed" &&
+                          !order.refunded && (
+                            <>
+                              <br />
+                              <span
+                                className="text-danger pointer"
+                                onClick={() => handleCancelOrder(order?._id)}
+                              >
+                                Cancel the order
+                              </span>
+                            </>
+                          )}
                       </td>
                     </tr>
                   </tbody>
@@ -230,6 +187,7 @@ export default function AdminOrders() {
             ))}
         </div>
       </div>
+      {/* <pre>{JSON.stringify(orders, null, 4)}</pre> */}
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
